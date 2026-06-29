@@ -3,6 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <meta name="theme-color" content="#b85c38" />
+  <link rel="manifest" href="manifest.json" />
   <title>Study Zone — TechYuva</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -223,6 +228,11 @@
 </head>
 <body data-theme="paper">
 
+  <div class="splash" id="splash">
+    <span class="splash__logo">TechYuva</span>
+    <div class="spinner"></div>
+  </div>
+
   <div class="scroll-progress" id="scrollProgress" aria-hidden="true"><span></span></div>
 
   <header class="nav" id="nav">
@@ -250,14 +260,15 @@
           <a href="studyzone.html" class="nav__tree-item is-active" data-file="study-zone">
             <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M14 4H8L6 2H2v12h12V4z" stroke="currentColor" stroke-width="1.2"/></svg><span>Study Zone</span>
           </a>
-          <a href="owner.html" class="nav__tree-item" data-file="owner">
-            <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M3 2h7l3 3v9H3V2z" stroke="currentColor" stroke-width="1.2"/><path d="M10 2v3h3" stroke="currentColor" stroke-width="1.2"/></svg><span>Owner</span>
+          <a href="about.html" class="nav__tree-item" data-file="about">
+            <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M14 4H8L6 2H2v12h12V4z" stroke="currentColor" stroke-width="1.2"/></svg>
+            <span>About</span>
           </a>
         </div>
     </div>
 
     <div class="nav__bar">
-      <a href="index.html#top" class="nav__logo"><span class="nav__logo-mark"><img src="unnamed.webp" alt="TechYuva" /></span><div class="nav__logo-text"><span class="nav__logo-name">TechYuva</span><span class="nav__logo-sub">ISO Certified Coding Institute</span></div></a>
+      <a href="index.html#top" class="nav__logo"><span class="nav__logo-mark"><img src="Blue White Bold Playful Kids Clothing Logo.png" alt="TechYuva" /></span><div class="nav__logo-text"><span class="nav__logo-name">TechYuva</span><span class="nav__logo-sub">ISO Certified Coding Institute</span></div></a>
       <div class="nav__actions"><a href="index.html" class="link-arrow" style="font-size:.78rem;">← Back home</a></div>
     </div>
   </header>
@@ -271,7 +282,24 @@
       <button class="sz-nav__btn" data-target="jobs">Jobs</button>
       <button class="sz-nav__btn" data-target="materials">Materials</button>
       <button class="sz-nav__btn" data-target="mocktest">Mock Tests</button>
-    </nav>
+  </nav>
+
+  <script>
+    (function(){
+      var pages = ['index.html','menu.html','studyzone.html'];
+      var sx=0, ex=0, sy=0, ey=0;
+      document.addEventListener('touchstart', function(e){ sx=e.changedTouches[0].screenX; sy=e.changedTouches[0].screenY; }, {passive:true});
+      document.addEventListener('touchend', function(e){
+        ex=e.changedTouches[0].screenX; ey=e.changedTouches[0].screenY;
+        var dx=sx-ex, dy=sy-ey, idx=pages.indexOf('studyzone.html');
+        if(Math.abs(dx)>70 && Math.abs(dx)>Math.abs(dy)*2) {
+          if(navigator.vibrate)navigator.vibrate(10);
+          if(dx>0&&idx<2)location=pages[idx+1];
+          if(dx<0&&idx>0)location=pages[idx-1];
+        }
+      }, {passive:true});
+    })();
+  </script>
 
     <div class="sz-updates" id="szUpdates">
       <span class="sz-updates__label">Latest</span>
@@ -331,9 +359,43 @@
   </footer>
 
   <div class="footer-credits">
+    <a href="owner.html">admin</a>
     <span>Designed by Sohith · +91 9640248157</span>
     <span>Designed by Neeraj · +91 9493007173</span>
   </div>
+
+  <nav class="bottom-nav">
+    <a href="index.html" class="bottom-nav__item">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 22V12h6v10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>Home</span>
+    </a>
+    <a href="menu.html" class="bottom-nav__item">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4 19.5A2.5 2.5 0 016.5 17H20" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>Courses</span>
+    </a>
+    <a href="studyzone.html" class="bottom-nav__item is-active">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M22 10v6M2 10l10-5 10 5-10 5-10-5z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 12v5c0 1.1 2.7 2 6 2s6-.9 6-2v-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>Study</span>
+    </a>
+    <a href="about.html" class="bottom-nav__item">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/><path d="M12 6v6l4 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>About</span>
+    </a>
+    <div class="bottom-nav__liquid"></div>
+  </nav>
+
+  <script>
+    (function(){
+      var active = document.querySelector('.bottom-nav__item.is-active');
+      var liquid = document.querySelector('.bottom-nav__liquid');
+      if (active && liquid) {
+        liquid.style.left = active.offsetLeft + 'px';
+        liquid.style.width = active.offsetWidth + 'px';
+      }
+    })();
+  </script>
+
+
 
   <script>
     const API_BASE = (!window.location.hostname || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
@@ -446,5 +508,8 @@
         ks.forEach((k, i) => render(k, rs[i]));
       } catch (e) { console.warn('Study zone:', e.message); }
     })();
+    window.addEventListener('load', function(){
+      setTimeout(function(){ var s = document.getElementById('splash'); if(s) s.classList.add('is-done'); }, 400);
+    });
   </script>
 </html>

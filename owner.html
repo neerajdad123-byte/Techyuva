@@ -3,6 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <meta name="theme-color" content="#b85c38" />
+  <link rel="manifest" href="manifest.json" />
   <title>Owner — TechYuva</title>
   <meta name="description" content="TechYuva Owner Dashboard — Student registration, fee tracking, course reports, and analytics." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -678,7 +683,7 @@
       .owner-head p { font-size: .82rem; max-width: 100%; }
 
       /* Stats — single column */
-      .stats-grid { grid-template-columns: 1fr; gap: .6rem; }
+      .stats-grid { grid-template-columns: 1fr !important; gap: .6rem; }
       .stat-card { padding: 1rem 1rem; border-radius: 10px; }
       .stat-card__value { font-size: 1.5rem; }
       .stat-card__label { font-size: .62rem; }
@@ -849,6 +854,22 @@
       font-size: .68rem; color: var(--bad);
     }
     .is-authenticated .owner-login { display: none; }
+
+    /* Admin Help Button */
+    .admin-help {
+      position: fixed; bottom: 1rem; left: 1rem;
+      z-index: 950;
+      width: 40px; height: 40px;
+      border-radius: 50%; border: 1px solid var(--accent);
+      background: var(--paper); color: var(--accent);
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      animation: waPulse 3s ease-in-out infinite;
+    }
+    @keyframes waPulse {
+      0%,100% { box-shadow: 0 0 0 0 rgba(184,92,56,.2); }
+      50% { box-shadow: 0 0 0 8px rgba(184,92,56,0); }
+    }
+    .admin-help:hover { background: var(--accent); color: var(--paper); animation: none; }
   </style>
 </head>
 <body data-theme="paper">
@@ -896,6 +917,10 @@
             <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M14 4H8L6 2H2v12h12V4z" stroke="currentColor" stroke-width="1.2"/></svg>
             <span>Study Zone</span>
           </a>
+          <a href="about.html" class="nav__tree-item" data-file="about">
+            <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M14 4H8L6 2H2v12h12V4z" stroke="currentColor" stroke-width="1.2"/></svg>
+            <span>About</span>
+          </a>
           <a href="owner.html" class="nav__tree-item is-active" data-file="owner">
             <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M3 2h7l3 3v9H3V2z" stroke="currentColor" stroke-width="1.2"/><path d="M10 2v3h3" stroke="currentColor" stroke-width="1.2"/></svg>
             <span>Owner</span>
@@ -906,7 +931,7 @@
     </div>
     <div class="nav__bar">
       <a href="index.html#top" class="nav__logo">
-        <span class="nav__logo-mark"><img src="unnamed.webp" alt="TechYuva" /></span>
+        <span class="nav__logo-mark"><img src="Blue White Bold Playful Kids Clothing Logo.png" alt="TechYuva" /></span>
         <div class="nav__logo-text">
           <span class="nav__logo-name">TechYuva</span>
           <span class="nav__logo-sub">ISO Certified Coding Institute</span>
@@ -983,17 +1008,14 @@
     </div>
 
     <!-- WhatsApp Number Setting -->
-    <div class="owner-section reveal" style="margin-bottom:2rem;">
+    <div class="owner-section reveal" style="margin-bottom:1.5rem;">
       <div class="owner-section__header">
         <div class="owner-section__title">
           <div class="owner-section__icon owner-section__icon--green">⚙</div>
           <div>
             <h2>Settings</h2>
-            <span>WhatsApp number & password</span>
+            <span>WhatsApp number & admin password</span>
           </div>
-        </div>
-        <div style="display:flex;gap:.5rem;">
-          <button class="owner-section__action" onclick="saveWhatsappNumber()"><span>$ save</span></button>
         </div>
       </div>
       <div class="owner-section__body">
@@ -1011,7 +1033,8 @@
           </div>
         </div>
         <div style="display:flex;align-items:center;gap:.8rem;margin-top:.6rem;flex-wrap:wrap;">
-          <button class="btn btn--primary" onclick="saveOwnerSettings()"><span>$ save settings</span></button>
+          <button class="btn btn--primary" onclick="saveWhatsappNumber()"><span>$ save whatsapp</span></button>
+          <button class="btn" onclick="changePassword()"><span>$ change password</span></button>
           <button class="btn" onclick="doLogout()" style="margin-left:auto;"><span>$ logout</span></button>
         </div>
       </div>
@@ -1027,6 +1050,7 @@
       <button class="owner-tab" data-tab="analytics">Analytics</button>
       <button class="owner-tab" data-tab="studyzone">Study Zone</button>
       <button class="owner-tab" data-tab="upcoming">Upcoming</button>
+      <button class="owner-tab" data-tab="gallery">Gallery</button>
     </div>
 
     <!-- TAB: Register -->
@@ -1124,10 +1148,21 @@
               <span>Manage student records</span>
             </div>
           </div>
-          <button class="owner-section__action" onclick="exportToCSV('students')">
-            <span>Export CSV</span>
-            <svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14m0 0-6-6m6 6 6-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </button>
+          <div style="display:flex;gap:.4rem;flex-wrap:wrap;">
+            <button class="owner-section__action" onclick="exportToCSV('students')">
+              <span>Export CSV</span>
+              <svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14m0 0-6-6m6 6 6-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <button class="owner-section__action" onclick="triggerImport()">
+              <span>Import CSV</span>
+              <svg viewBox="0 0 24 24" fill="none"><path d="M12 19V5m0 0-6 6m6-6 6 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <input type="file" id="importFile" accept=".csv" onchange="importStudents()" style="display:none;" />
+            <button class="owner-section__action" onclick="printStudents()">
+              <span>Print</span>
+              <svg viewBox="0 0 24 24" fill="none"><path d="M6 9V2h12v7M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><rect x="6" y="14" width="12" height="8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </div>
         </div>
         <div class="owner-section__body">
           <div class="toolbar">
@@ -1297,10 +1332,6 @@
               <input type="text" id="courseName" placeholder="e.g. Web Development" />
             </div>
             <div class="field">
-              <span>End Date</span>
-              <input type="date" id="courseEndDate" />
-            </div>
-            <div class="field">
               <span>Fee (₹)</span>
               <input type="number" id="courseFee" placeholder="25000" />
             </div>
@@ -1329,6 +1360,10 @@
             <button class="btn" onclick="clearCourseForm()">
               <span>$ clear</span>
             </button>
+            <button class="btn" onclick="triggerCoursesImport()" style="margin-left:auto;">
+              <span>$ import course+batch</span>
+            </button>
+            <input type="file" id="importCoursesFile" accept=".csv" onchange="importCourses()" style="display:none;" />
           </div>
         </div>
       </div>
@@ -1398,6 +1433,12 @@
           </button>
         </div>
         <div class="owner-section__body">
+          <div class="toolbar" style="margin-top:.5rem;">
+            <div class="search-box" style="max-width:100%;">
+              <span class="search-icon">$</span>
+              <input type="text" placeholder="Search courses..." id="courseSearchAdmin" oninput="updateCourses()" />
+            </div>
+          </div>
           <div class="owner-table-wrap" style="margin-bottom:1.4rem;">
             <table class="owner-table">
               <thead>
@@ -1724,6 +1765,12 @@
               <span>$ clear</span>
             </button>
           </div>
+          <div class="toolbar" style="margin-top:.5rem;">
+            <div class="search-box" style="max-width:100%;">
+              <span class="search-icon">$</span>
+              <input type="text" placeholder="Search upcoming..." id="upcomingSearch" oninput="renderUpcomingTable()" />
+            </div>
+          </div>
           <div class="owner-table-wrap" style="margin-top:1.2rem;">
             <table class="owner-table">
               <thead>
@@ -1731,6 +1778,69 @@
               </thead>
               <tbody id="upcomingTable"></tbody>
             </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: Gallery -->
+    <div class="owner-tab-panel" id="panel-gallery">
+      <div class="owner-section reveal">
+        <div class="owner-section__header">
+          <div class="owner-section__title">
+            <div class="owner-section__icon owner-section__icon--blue">🖼</div>
+            <div>
+              <h2>Institute Gallery</h2>
+              <span>Manage photos shown on About page</span>
+            </div>
+          </div>
+        </div>
+        <div class="owner-section__body">
+          <div class="form-grid">
+            <div class="field">
+              <span>Image URL</span>
+              <input type="url" id="galleryImageUrl" placeholder="https://example.com/photo.jpg" />
+            </div>
+            <div class="field">
+              <span>Caption (optional)</span>
+              <input type="text" id="galleryCaption" placeholder="e.g. Campus building" />
+            </div>
+          </div>
+          <div class="form-actions">
+            <button class="btn btn--primary" onclick="saveGalleryItem()">
+              <span>$ add image</span>
+            </button>
+          </div>
+          <div class="owner-table-wrap" style="margin-top:1rem;">
+            <table class="owner-table">
+              <thead><tr><th>Image</th><th>Caption</th><th>Actions</th></tr></thead>
+              <tbody id="galleryTable"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="owner-section reveal">
+        <div class="owner-section__header">
+          <div class="owner-section__title">
+            <div class="owner-section__icon owner-section__icon--green">📝</div>
+            <div>
+              <h2>Institute Info</h2>
+              <span>Update about section text</span>
+            </div>
+          </div>
+          <button class="owner-section__action" onclick="saveInstituteInfo()">
+            <span>$ save info</span>
+          </button>
+        </div>
+        <div class="owner-section__body">
+          <div class="field field--full">
+            <span>Title</span>
+            <input type="text" id="instituteTitle" placeholder="About TechYuva Computers" />
+          </div>
+          <div class="field field--full" style="margin-top:.6rem;">
+            <span>Description</span>
+            <textarea id="instituteDesc" rows="5" placeholder="Institute information..." style="font:inherit;color:var(--ink);background:var(--paper-2);border:1px solid var(--line);border-radius:8px;padding:.7rem .8rem;font-family:var(--font-mono);font-size:.82rem;width:100%;resize:vertical;box-sizing:border-box;"></textarea>
           </div>
         </div>
       </div>
@@ -1861,6 +1971,14 @@
             </select>
           </div>
           <div class="field">
+            <span>Course Status</span>
+            <select id="editCourseStatus">
+              <option value="ongoing">Ongoing</option>
+              <option value="dropped">Dropped</option>
+              <option value="completed">Completed</option>
+            </select>
+          </div>
+          <div class="field">
             <span>Total Fee (₹)</span>
             <input type="number" id="editTotalFee" />
           </div>
@@ -1984,6 +2102,7 @@
         try { if (panelId === 'analytics') updateAnalytics(); } catch(e) { console.warn(e); }
         try { if (panelId === 'studyzone') { updateStudyZoneMetaFields(); renderStudyZoneTable(); } } catch(e) { console.warn(e); }
         try { if (panelId === 'upcoming') renderUpcomingTable(); } catch(e) { console.warn(e); }
+        try { if (panelId === 'gallery') { renderGalleryTable(); loadInstituteInfo(); } } catch(e) { console.warn(e); }
       });
     });
 
@@ -1991,7 +2110,7 @@
     function updateDashboard() {
       const totalStudents = students.length;
       const totalCollected = students.reduce((sum, s) => sum + (parseFloat(s.paidFee) || 0), 0);
-      const totalPending = students.reduce((sum, s) => sum + ((parseFloat(s.totalFee) || 0) - (parseFloat(s.paidFee) || 0)), 0);
+      const totalPending = students.reduce((sum, s) => sum + (s.courseStatus === 'dropped' ? 0 : ((parseFloat(s.totalFee) || 0) - (parseFloat(s.paidFee) || 0))), 0);
       const activeCourses = [...new Set(students.map(s => s.course))].filter(c => c).length;
       $('#dashTotalStudents').textContent = totalStudents;
       $('#dashFeesCollected').textContent = '₹' + totalCollected.toLocaleString('en-IN');
@@ -2023,6 +2142,10 @@
       const courseBatches = courseName ? getBatchesForCourse(courseName) : getBatches();
       const batchSelect = $('#studentBatch');
       batchSelect.innerHTML = '<option value="">Select Batch</option>' + courseBatches.map(b => `<option value="${batchLabel(b)}">${batchLabel(b)}</option>`).join('');
+      if (courseName) {
+        const course = (courses || []).find(c => c.name === courseName);
+        if (course && course.fee) { $('#studentTotalFee').value = course.fee; }
+      }
       updateExpectedEndDate();
     }
     function updateEditBatchForCourse() {
@@ -2133,7 +2256,7 @@
       const joinDate = $('#studentJoinDate').value;
       const expectedEndDate = $('#studentExpectedEndDate').value;
       const totalFee = parseFloat($('#studentTotalFee').value) || 0;
-      if (!name || !course || !batch || !joinDate) { showToast('Please fill name, course, batch, and join date', 'error'); return; }
+      if (!name) { showToast('Please enter student name', 'error'); return; }
       const newStudent = { regNo, name, phone, phone2, address, reference, paymentMode, course, batch, courseStatus:'ongoing', certificateIssued:'no', joinDate, expectedEndDate, totalFee, paidFee: 0, status: 'Pending', payments: [] };
       try {
         const saved = await api('/students', { method: 'POST', body: JSON.stringify({ regNo, name, phone, phone2, address, reference, paymentMode, course, batch, courseStatus:'ongoing', certificateIssued:'no', joinDate, expectedEndDate, totalFee, paidFee: 0, status: 'Pending', payments: [] }) });
@@ -2173,6 +2296,7 @@
       $('#editBatch').value = s.batch || '';
       $('#editPaymentMode').value = s.paymentMode || 'offline';
       $('#editCertificate').value = s.certificateIssued || 'no';
+      $('#editCourseStatus').value = s.courseStatus || 'ongoing';
       $('#editTotalFee').value = s.totalFee; $('#editPaidFee').value = s.paidFee; $('#editStatus').value = s.status;
       $('#editModal').classList.add('is-active');
     }
@@ -2187,6 +2311,7 @@
         course: $('#editCourse').value, batch: $('#editBatch').value,
         paymentMode: $('#editPaymentMode').value,
         certificateIssued: $('#editCertificate').value,
+        courseStatus: $('#editCourseStatus').value,
         totalFee: parseFloat($('#editTotalFee').value) || 0, paidFee: parseFloat($('#editPaidFee').value) || 0,
         status: $('#editStatus').value,
         expectedEndDate: calcExpectedEndDate(s.joinDate, $('#editBatch').value),
@@ -2230,7 +2355,7 @@
       if (!currentPaymentId) return;
       const amount = parseFloat($('#paymentAmount').value) || 0;
       const mode = $('#paymentModeSelect') ? $('#paymentModeSelect').value : 'offline';
-      if (amount <= 0) { showToast('Enter a valid amount', 'error'); return; }
+      if (amount < 0) { showToast('Enter a valid amount', 'error'); return; }
       const s = students.find(x => x.id === currentPaymentId);
       const balance = (parseFloat(s.totalFee) || 0) - (parseFloat(s.paidFee) || 0);
       if (amount > balance) { showToast('Amount exceeds balance', 'error'); return; }
@@ -2246,7 +2371,7 @@
     // ==================== FEES ====================
     function updateFeesTable() {
       const totalCollected = students.reduce((sum, s) => sum + (parseFloat(s.paidFee) || 0), 0);
-      const totalPending = students.reduce((sum, s) => sum + ((parseFloat(s.totalFee) || 0) - (parseFloat(s.paidFee) || 0)), 0);
+      const totalPending = students.reduce((sum, s) => sum + (s.courseStatus === 'dropped' ? 0 : ((parseFloat(s.totalFee) || 0) - (parseFloat(s.paidFee) || 0))), 0);
       const fullyPaid = students.filter(s => s.status === 'Paid').length;
       const partialPending = students.filter(s => s.status !== 'Paid').length;
       $('#feeTotalCollected').textContent = '₹' + totalCollected.toLocaleString('en-IN');
@@ -2346,9 +2471,11 @@
 
     async function saveBatch() {
       const courseName = $('#batchCourse').value;
+      const name = $('#batchName').value.trim();
+      const duration = parseInt($('#batchDuration').value) || 0;
       const timing = $('#batchTiming').value.trim();
       const editId = $('#editBatchId').value;
-      if (!courseName || !name || !duration) { showToast('Select course, enter name and duration', 'error'); return; }
+      if (!courseName || !name) { showToast('Select course and enter batch name', 'error'); return; }
       const course = (courses || []).find(c => c.name === courseName);
       if (!course) { showToast('Course not found', 'error'); return; }
       const courseId = course.id;
@@ -2383,7 +2510,8 @@
 
     // ==================== COURSES ====================
     function updateCourses() {
-      const courseList = getCourseList();
+      const search = ($('#courseSearchAdmin').value || '').toLowerCase();
+      const courseList = getCourseList().filter(c => !search || c.name.toLowerCase().includes(search));
       const courseData = {};
       courseList.forEach(c => { courseData[c.name] = { students:0, totalRevenue:0, collected:0, pending:0 }; });
       students.forEach(s => { if (courseData[s.course]) { courseData[s.course].students++; courseData[s.course].totalRevenue += parseFloat(s.totalFee) || 0; courseData[s.course].collected += parseFloat(s.paidFee) || 0; courseData[s.course].pending += (parseFloat(s.totalFee) || 0) - (parseFloat(s.paidFee) || 0); }});
@@ -2393,7 +2521,7 @@
         const rate = data.totalRevenue > 0 ? Math.round((data.collected / data.totalRevenue) * 100) : 0;
         let pcls = rate >= 80 ? 'progress-fill--green' : rate >= 50 ? 'progress-fill--orange' : 'progress-fill--red';
         const esc = c.name.replace(/'/g, "\\'");
-        return `<tr><td><a href="#" onclick="showCourseDetail('${esc}');return false;" style="color:var(--accent);text-decoration:underline;font-weight:500;">${c.name}</a><div class="owner-table__meta">${c.endDate ? 'Ends ' + formatDate(c.endDate) : ''}</div></td><td><strong>${data.students}</strong></td><td>₹${data.totalRevenue.toLocaleString('en-IN')}</td><td style="color:var(--good);font-weight:600;">₹${data.collected.toLocaleString('en-IN')}</td><td style="color:var(--bad);font-weight:600;">₹${data.pending.toLocaleString('en-IN')}</td><td><div class="progress-wrap"><div class="progress-bar"><div class="progress-fill ${pcls}" style="width:${rate}%"></div></div><span class="progress-text">${rate}%</span></div></td><td><div class="action-btns"><button class="action-btn" onclick="editCourse('${esc}')" title="Edit">✏</button><button class="action-btn action-btn--danger" onclick="deleteCourse('${esc}')" title="Delete">✕</button></div></td></tr>`;
+        return `<tr><td><a href="#" onclick="showCourseDetail('${esc}');return false;" style="color:var(--accent);text-decoration:underline;font-weight:500;">${c.name}</a>${c.infoLink ? ' <span style="font-size:.55rem;color:var(--good);" title="Know More link set">🔗</span>' : ''}<div class="owner-table__meta">${c.endDate ? 'Ends ' + formatDate(c.endDate) : ''}</div></td><td><strong>${data.students}</strong></td><td>₹${data.totalRevenue.toLocaleString('en-IN')}</td><td style="color:var(--good);font-weight:600;">₹${data.collected.toLocaleString('en-IN')}</td><td style="color:var(--bad);font-weight:600;">₹${data.pending.toLocaleString('en-IN')}</td><td><div class="progress-wrap"><div class="progress-bar"><div class="progress-fill ${pcls}" style="width:${rate}%"></div></div><span class="progress-text">${rate}%</span></div></td><td><div class="action-btns"><button class="action-btn" onclick="editCourse('${esc}')" title="Edit">✏</button><button class="action-btn action-btn--danger" onclick="deleteCourse('${esc}')" title="Delete">✕</button></div></td></tr>`;
       }).join('') || emptyRow(7, 'No courses added', 'Add a course using the form above');
       $('#courseCards').innerHTML = courseList.map(c => {
         const data = courseData[c.name] || { students:0, totalRevenue:0, collected:0, pending:0 };
@@ -2410,7 +2538,6 @@
 
     async function saveCourse() {
       const name = $('#courseName').value.trim();
-      const endDate = $('#courseEndDate').value;
       const fee = parseFloat($('#courseFee').value) || 0;
       const badge = $('#courseBadge').value.trim();
       const infoLink = $('#courseInfoLink').value.trim();
@@ -2419,12 +2546,12 @@
       if (!name) { showToast('Please enter a course name', 'error'); return; }
       try {
         if (editId) {
-          const updated = await api(`/courses/${editId}`, { method: 'PUT', body: JSON.stringify({ name, endDate, fee, badge, infoLink, trending }) });
+          const updated = await api(`/courses/${editId}`, { method: 'PUT', body: JSON.stringify({ name, fee, badge, infoLink, trending }) });
           const idx = courses.findIndex(c => c.id === editId);
           if (idx !== -1) courses[idx] = updated;
         } else {
           if (courses.find(c => c.name.toLowerCase() === name.toLowerCase())) { showToast('Course already exists', 'error'); return; }
-          const saved = await api('/courses', { method: 'POST', body: JSON.stringify({ name, endDate, fee, badge, infoLink, trending }) });
+          const saved = await api('/courses', { method: 'POST', body: JSON.stringify({ name, fee, badge, infoLink, trending }) });
           courses.push(saved);
         }
         clearCourseForm(); updateCourses(); updateCourseFilters();
@@ -2438,7 +2565,7 @@
       const c = list.find(x => x.name === name);
       if (!c) return;
       $('#editCourseId').value = c.id;
-      $('#courseName').value = c.name; $('#courseEndDate').value = c.endDate || '';
+      $('#courseName').value = c.name;
       $('#courseFee').value = c.fee || ''; $('#courseBadge').value = c.badge || '';
       $('#courseInfoLink').value = c.infoLink || '';
       $('#courseTrending').checked = !!c.trending;
@@ -2460,8 +2587,62 @@
 
     function clearCourseForm() {
       $('#editCourseId').value = '';
-      $('#courseName').value = ''; $('#courseEndDate').value = '';
+      $('#courseName').value = '';
       $('#courseFee').value = ''; $('#courseBadge').value = ''; $('#courseInfoLink').value = ''; $('#courseTrending').checked = false;
+    }
+
+    function triggerCoursesImport() { document.getElementById('importCoursesFile').click(); }
+
+    async function importCourses() {
+      var file = document.getElementById('importCoursesFile').files[0];
+      if (!file) return;
+      var reader = new FileReader();
+      reader.onload = async function(e) {
+        var lines = e.target.result.replace(/\r/g,'').split('\n');
+        if (lines.length < 2) { showToast('CSV empty', 'error'); return; }
+        var headers = lines[0].split(',');
+        var ci = 0, bi = 0, courseMap = {};
+        for (var i = 1; i < lines.length; i++) {
+          var row = parseCSVLine(lines[i]);
+          if (!row || row.length < 3) continue;
+          var vals = {};
+          headers.forEach(function(h, k) { vals[h.trim().toLowerCase()] = (row[k] || '').trim(); });
+          var type = vals['type'] || '';
+          if (type.toLowerCase() === 'course') {
+            var name = vals['name'] || '';
+            if (!name || courses.find(function(c) { return c.name.toLowerCase() === name.toLowerCase(); })) continue;
+            var fee = parseFloat(vals['fee'] || 0);
+            var badge = vals['badge'] || '';
+            var infoLink = vals['infolink'] || '';
+            var trending = (vals['trending'] || '').toLowerCase() === 'yes';
+          try {
+            var saved = await api('/courses', { method: 'POST', body: JSON.stringify({ name: name, fee: fee, badge: badge, infoLink: infoLink, trending: trending }) });
+            courses.push(saved); courseMap[name.toLowerCase()] = saved.id; ci++;
+          } catch(err) { console.warn('Course skip:', name, err.message); showToast('Course skip: ' + name + ' - ' + err.message, 'error'); }
+          } else if (type.toLowerCase() === 'batch') {
+            var courseName = vals['name'] || '';
+            var batchName = vals['batch'] || '';
+            var duration = parseInt(vals['duration'] || 45);
+            var timing = vals['timing'] || '';
+            if (!courseName || !batchName) continue;
+            var courseId = courseMap[courseName.toLowerCase()];
+            if (!courseId) {
+              var c = courses.find(function(x) { return x.name.toLowerCase() === courseName.toLowerCase(); });
+              if (c) courseId = c.id;
+            }
+            if (!courseId) continue;
+            try {
+              var saved = await api('/batches', { method: 'POST', body: JSON.stringify({ courseId: courseId, name: batchName, duration: duration, timing: timing }) });
+              batches.push(saved); bi++;
+            } catch(err) { console.warn('Batch skip:', batchName, err.message); showToast('Batch skip: ' + batchName + ' - ' + err.message, 'error'); }
+          }
+        }
+        updateCourses(); renderBatchesTable(); updateCourseFilters();
+        if (typeof populateCourseSelects === 'function') populateCourseSelects();
+        showToast('Imported ' + ci + ' courses, ' + bi + ' batches', 'success');
+        document.getElementById('importCoursesFile').value = '';
+      };
+      reader.readAsText(file);
     }
 
     function showCourseDetail(courseName) {
@@ -2674,7 +2855,7 @@
       const amount = parseFloat($('#expAmount').value) || 0;
       const mode = $('#expMode').value;
       const date = $('#expDate').value;
-      if (!name || amount <= 0 || !date) { showToast('Please fill name, amount, and date', 'error'); return; }
+      if (!name) { showToast('Please enter expense name', 'error'); return; }
       try {
         if (editId) {
           await api(`/expenses/${editId}`, { method: 'PUT', body: JSON.stringify({ name, amount, date, mode }) });
@@ -2736,7 +2917,7 @@
 
       const feesCollected = filteredStudents.reduce((sum, s) => sum + (parseFloat(s.paidFee) || 0), 0);
       const totalExp = filteredExpenses.reduce((sum, e) => sum + (parseFloat(e.amount) || 0), 0);
-      const pendingFees = filteredStudents.reduce((sum, s) => sum + ((parseFloat(s.totalFee) || 0) - (parseFloat(s.paidFee) || 0)), 0);
+      const pendingFees = filteredStudents.reduce((sum, s) => sum + (s.courseStatus === 'dropped' ? 0 : ((parseFloat(s.totalFee) || 0) - (parseFloat(s.paidFee) || 0))), 0);
       const netBal = feesCollected - totalExp;
       $('#analyticsFeesCollected').textContent = '₹' + feesCollected.toLocaleString('en-IN');
       $('#analyticsTotalExpenses').textContent = '₹' + totalExp.toLocaleString('en-IN');
@@ -2779,8 +2960,10 @@
 
     // ==================== UPCOMING BATCHES ====================
     function renderUpcomingTable() {
+      const search = ($('#upcomingSearch').value || '').toLowerCase();
+      const filtered = upcomingBatches.filter(b => !search || b.courseName.toLowerCase().includes(search) || b.batchName.toLowerCase().includes(search));
       const tbody = $('#upcomingTable');
-      tbody.innerHTML = upcomingBatches.map(b => `<tr>
+      tbody.innerHTML = filtered.map(b => `<tr>
         <td><span class="owner-table__name">${b.courseName}</span></td>
         <td>${b.batchName}</td>
         <td>${b.startingDate ? formatDate(b.startingDate) : '—'}</td>
@@ -2841,6 +3024,50 @@
       } catch (err) { showToast('Delete failed: ' + err.message, 'error'); }
     }
 
+    // ==================== GALLERY ====================
+    async function renderGalleryTable() {
+      try {
+        var items = await api('/gallery');
+        $('#galleryTable').innerHTML = items.map(function(item) {
+          return '<tr><td><img src="' + item.imageUrl + '" onerror="this.style.display=\'none\'" style="max-width:80px;max-height:50px;border-radius:6px;" /></td><td>' + (item.caption || '—') + '</td><td><div class="action-btns"><button class="action-btn action-btn--danger" onclick="deleteGalleryItem(\'' + item.id + '\')">✕</button></div></td></tr>';
+        }).join('') || emptyRow(3, 'No gallery images', 'Add one using the form above');
+      } catch (e) { }
+    }
+
+    async function saveGalleryItem() {
+      var url = $('#galleryImageUrl').value.trim();
+      var caption = $('#galleryCaption').value.trim();
+      if (!url) { showToast('Enter image URL', 'error'); return; }
+      try {
+        await api('/gallery', { method: 'POST', body: JSON.stringify({ imageUrl: url, caption: caption }) });
+        $('#galleryImageUrl').value = ''; $('#galleryCaption').value = '';
+        renderGalleryTable(); showToast('Image added', 'success');
+      } catch (err) { showToast('Failed: ' + err.message, 'error'); }
+    }
+
+    async function deleteGalleryItem(id) {
+      if (!confirm('Delete this image?')) return;
+      try { await api('/gallery/' + id, { method: 'DELETE' }); renderGalleryTable(); showToast('Deleted', 'success'); }
+      catch (err) { showToast('Failed', 'error'); }
+    }
+
+    async function loadInstituteInfo() {
+      try {
+        var info = await api('/institute-info');
+        $('#instituteTitle').value = info.title || '';
+        $('#instituteDesc').value = info.description || '';
+      } catch (e) { }
+    }
+
+    async function saveInstituteInfo() {
+      var title = $('#instituteTitle').value.trim();
+      var desc = $('#instituteDesc').value.trim();
+      try {
+        await api('/institute-info', { method: 'PUT', body: JSON.stringify({ title: title, description: desc }) });
+        showToast('Institute info saved', 'success');
+      } catch (err) { showToast('Failed: ' + err.message, 'error'); }
+    }
+
     // ==================== EXPORTS ====================
     function exportToCSV(type) {
       let data = [], headers = [], filename = '';
@@ -2861,6 +3088,94 @@
       const csv = [headers.join(','), ...data.map(row => headers.map(h => `"${row[h]}"`).join(','))].join('\n');
       const blob = new Blob([csv], { type:'text/csv;charset=utf-8;' }); const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = filename; link.click();
       showToast('Exported ' + filename, 'success');
+    }
+
+    function printStudents() {
+      if (students.length === 0) { showToast('No students to print', 'error'); return; }
+      var w = window.open('', '_blank', 'width=800,height=600');
+      var h = '<html><head><title>TechYuva — Students</title><style>body{font-family:monospace;font-size:12px;padding:20px;}table{width:100%;border-collapse:collapse;}th,td{border:1px solid #ccc;padding:6px 8px;text-align:left;}th{background:#f5f5f5;}h2{margin-bottom:16px;}@media print{body{padding:0;}}</style></head><body>';
+      h += '<h2>TechYuva — Student Records</h2>';
+      h += '<p>Printed: ' + new Date().toLocaleDateString('en-IN') + '</p>';
+      h += '<table><thead><tr><th>Reg No</th><th>Name</th><th>Phone</th><th>Course</th><th>Batch</th><th>Join Date</th><th>Total Fee</th><th>Paid</th><th>Status</th></tr></thead><tbody>';
+      students.forEach(function(s) {
+        var total = parseFloat(s.totalFee)||0, paid = parseFloat(s.paidFee)||0;
+        h += '<tr><td>'+(s.regNo||'-')+'</td><td>'+s.name+'</td><td>'+s.phone+'</td><td>'+s.course+'</td><td>'+(s.batch||'-')+'</td><td>'+(s.joinDate||'-')+'</td><td>₹'+total.toLocaleString('en-IN')+'</td><td>₹'+paid.toLocaleString('en-IN')+'</td><td>'+s.status+'</td></tr>';
+      });
+      h += '</tbody></table></body></html>';
+      w.document.write(h); w.document.close();
+      setTimeout(function(){ w.print(); }, 500);
+    }
+
+    function triggerImport() { document.getElementById('importFile').click(); }
+
+    async function importStudents() {
+      var file = document.getElementById('importFile').files[0];
+      if (!file) return;
+      var reader = new FileReader();
+      reader.onload = async function(e) {
+        var text = e.target.result;
+        var lines = text.split('\n');
+        if (lines.length < 2) { showToast('CSV is empty or missing header', 'error'); return; }
+        var headers = lines[0].split(',');
+        var total = 0, imported = 0;
+        for (var i = 1; i < lines.length; i++) {
+          var row = parseCSVLine(lines[i]);
+          if (!row || row.length < 2) continue;
+          var s = {};
+          headers.forEach(function(h, k) { s[h.trim().toLowerCase()] = (row[k] || '').trim(); });
+          if (!s.name) continue;
+          total++;
+          var totalFee = parseFloat(s['total fee']) || 0;
+          var paidFee = parseFloat(s['paid fee']) || 0;
+          var paymentMode = (s['type'] || 'offline').toLowerCase().includes('online') ? 'online' : 'offline';
+          var batch = s['batch'] || '';
+          var status = paidFee >= totalFee && totalFee > 0 ? 'Paid' : paidFee > 0 ? 'Partial' : 'Pending';
+          var payments = paidFee > 0 ? [{ id:Date.now()+i, amount:paidFee, date:s['join date']||new Date().toISOString().split('T')[0], mode:paymentMode }] : [];
+          var courseStatus = (s['course status'] || '').toLowerCase() === 'drop' ? 'dropped' : 'ongoing';
+          var certificate = (s['certificate'] || '').toLowerCase() === 'yes' ? 'yes' : 'no';
+          var regNo = s['reg no'] || '';
+          if (regNo && students.find(function(x){ return x.regNo === regNo; })) continue;
+          var body = {
+            regNo: regNo, name: s['name'] || '', phone: s['phone'] || '',
+            phone2: s['phone2'] || '', address: s['address'] || '', reference: s['reference'] || '',
+            paymentMode: paymentMode, course: s['course'] || '', batch: batch,
+            joinDate: fixDate(s['join date']), expectedEndDate: fixDate(s['expected end']),
+            totalFee: totalFee, paidFee: paidFee, status: status, payments: payments,
+            courseStatus: courseStatus, certificateIssued: certificate
+          };
+          try {
+            var saved = await api('/students', { method: 'POST', body: JSON.stringify(body) });
+            students.unshift(saved);
+            imported++;
+          } catch(err) { console.warn('Import skip:', s.name, err.message); showToast('Skip: ' + s.name + ' - ' + err.message, 'error'); }
+        }
+        updateStudentsTable(); updateDashboard(); updateCourseFilters(); updateFeesTable();
+        showToast('Imported ' + imported + ' of ' + total + ' students', imported > 0 ? 'success' : 'error');
+        document.getElementById('importFile').value = '';
+      };
+      reader.readAsText(file);
+    }
+
+    function parseCSVLine(line) {
+      if (!line.trim()) return null;
+      var result = [], current = '', inQuotes = false;
+      for (var i = 0; i < line.length; i++) {
+        var ch = line[i];
+        if (ch === '"') { inQuotes = !inQuotes; continue; }
+        if (ch === ',' && !inQuotes) { result.push(current.trim()); current = ''; continue; }
+        current += ch;
+      }
+      result.push(current.trim());
+      return result;
+    }
+
+    function fixDate(d) {
+      if (!d || d === '2/21/1900') return '';
+      var parts = d.split('/');
+      if (parts.length === 3) {
+        return parts[2] + '-' + parts[0].padStart(2,'0') + '-' + parts[1].padStart(2,'0');
+      }
+      return d;
     }
 
     // ==================== UTILITIES ====================
@@ -2892,6 +3207,16 @@
         showToast('WhatsApp number updated', 'success');
       } catch (err) { showToast('Failed: ' + err.message, 'error'); }
     }
+
+    async function changePassword() {
+      const pw = $('#ownerPassword').value.trim();
+      if (!pw || pw.length < 4) { showToast('Password must be at least 4 characters', 'error'); return; }
+      try {
+        await api('/settings/password', { method: 'PUT', body: JSON.stringify({ password: pw }) });
+        $('#ownerPassword').value = '';
+        showToast('Password updated', 'success');
+      } catch (err) { showToast('Failed: ' + err.message, 'error'); }
+    }
     loadWhatsappNumber();
 
     // Auth
@@ -2912,34 +3237,14 @@
           init();
         }
       } catch (err) {
-        if (pw === 'admin123') {
-          sessionStorage.setItem('ownerAuth', 'techyuva_owner_session');
-          document.body.classList.add('is-authenticated');
-          $('#loginError').textContent = '';
-          init();
-        } else {
-          $('#loginError').textContent = 'Wrong password';
-          document.getElementById('loginPassword').value = '';
-        }
+        $('#loginError').textContent = 'Wrong password';
+        document.getElementById('loginPassword').value = '';
       }
     }
 
     function doLogout() {
       sessionStorage.removeItem('ownerAuth');
       location.reload();
-    }
-
-    async function saveOwnerSettings() {
-      const pw = $('#ownerPassword').value.trim();
-      if (pw && pw.length < 4) { showToast('Password must be at least 4 characters', 'error'); return; }
-      try {
-        await saveWhatsappNumber();
-        if (pw) {
-          await api('/settings/password', { method: 'PUT', body: JSON.stringify({ password: pw }) });
-          $('#ownerPassword').value = '';
-          showToast('Password updated', 'success');
-        }
-      } catch (err) { showToast('Failed: ' + err.message, 'error'); }
     }
 
     // Init — only run if authenticated
@@ -2964,6 +3269,57 @@
     if (sessionStorage.getItem('ownerAuth') === 'techyuva_owner_session') {
       init();
     }
+  </script>
+
+  <!-- Admin Help -->
+  <button class="admin-help" id="adminHelp" onclick="toggleAdminHelp()" title="Help">?</button>
+  <div class="tour-overlay" id="adminTourOverlay" hidden>
+    <div class="tour-backdrop" onclick="toggleAdminHelp()"></div>
+    <div class="tour-card" style="max-width:360px;">
+      <div class="tour-step" id="adminTourStep">1/9</div>
+      <h3 id="adminTourTitle">Welcome</h3>
+      <p id="adminTourDesc" style="text-align:left;font-size:.72rem;line-height:1.6;"></p>
+      <div class="tour-actions">
+        <button class="btn" onclick="toggleAdminHelp()"><span>$ close</span></button>
+        <button class="btn btn--primary" id="adminTourNext"><span>$ next</span></button>
+      </div>
+    </div>
+  </div>
+  <script>
+    var adminSteps = [
+      { title:'📊 Dashboard Overview', desc:'Top stats show total students, fees collected, pending amount, active courses. This month summaries + payment status chart. <b>Settings</b> card lets you change WhatsApp number & admin password.' },
+      { title:'📝 1. Register Tab', desc:'Fill student name, reg no, phone, address, course, batch, join date & total fee. Click <b>$ register student</b>. Only name is required — all other fields are optional.' },
+      { title:'👥 2. Students Tab', desc:'View all records. <b>Search</b> by name/reg no. <b>Filter</b> by course, batch, status, date. Use <b>✏</b> to edit, <b>₹</b> to record payment, <b>✕</b> to delete. <b>Export CSV</b> or <b>Print</b> for records. <b>Import CSV</b> to bulk-add students with dedup.' },
+      { title:'💰 3. Fees Tab', desc:'Track payment status of every student. Filter by paid/partial/pending. Click <b>₹</b> to add new payment. Progress bar shows collection rate. Footer shows totals.' },
+      { title:'📚 4. Courses Tab', desc:'Add/Edit courses with name, fee, badge, info link (<b>Know More URL</b> — shows on Courses page). Mark as <b>Trending</b> for homepage. <b>Search</b> filters courses. <b>Import CSV</b> for bulk course+batch creation.' },
+      { title:'💸 5. Expenses Tab', desc:'Record institute expenses — name, amount, mode (cash/online), date. View all spending with filters. Export to CSV. Only name is required.' },
+      { title:'📈 6. Analytics Tab', desc:'Full financial picture. Set <b>date range</b> to filter. Charts: enrollment trend, fee collection, course revenue. Online vs offline breakdown.' },
+      { title:'📖 7. Study Zone Tab', desc:'Add resources for students — roadmaps, job openings, study materials, mock tests. Choose type, enter title, description, link.' },
+      { title:'📅 8. Upcoming Tab', desc:'Add upcoming batches shown on main page. Enter course name, batch name, starting date & timing. Appears in the Upcoming Batches section with countdown. <b>Search</b> to filter.' },
+      { title:'🖼 9. Gallery Tab', desc:'Manage institute photos for the About page. Add <b>image URLs</b> with captions. Images appear in a scrollable gallery on the About page. Delete photos anytime.' },
+      { title:'📝 10. Institute Info', desc:'Update the About page institute description. Edit the <b>title</b> and <b>description</b> text — changes appear instantly on the About page. Click <b>$ save info</b> to publish.' }
+    ];
+    var adminIdx = 0;
+    var adminTabMap = ['','register','students','fees','courses','expenses','analytics','studyzone','upcoming','gallery','gallery'];
+    function toggleAdminHelp() {
+      var el = document.getElementById('adminTourOverlay');
+      if (el.hidden) { adminIdx = 0; showAdminTour(); } else { el.hidden = true; }
+    }
+    function showAdminTour() {
+      var s = adminSteps[adminIdx];
+      var tabName = adminTabMap[adminIdx];
+      if (tabName) { var tab = document.querySelector('[data-tab="' + tabName + '"]'); if (tab) tab.click(); }
+      document.getElementById('adminTourStep').textContent = (adminIdx+1)+'/'+adminSteps.length;
+      document.getElementById('adminTourTitle').textContent = s.title;
+      document.getElementById('adminTourDesc').innerHTML = s.desc;
+      document.getElementById('adminTourNext').innerHTML = adminIdx === adminSteps.length-1 ? '<span>$ done</span>' : '<span>$ next</span>';
+      document.getElementById('adminTourOverlay').hidden = false;
+    }
+    document.getElementById('adminTourNext').addEventListener('click', function(){
+      adminIdx++;
+      if (adminIdx >= adminSteps.length) { document.getElementById('adminTourOverlay').hidden = true; return; }
+      showAdminTour();
+    });
   </script>
 </body>
 </html>

@@ -3,6 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <meta name="theme-color" content="#b85c38" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="TechYuva" />
+  <link rel="manifest" href="manifest.json" />
   <title>TechYuva Computers — No.1 Computer Training Institute in Eluru</title>
   <meta name="description" content="TechYuva Computers is the No.1 Computer Training Institute in Eluru (Since 2014). 100% practical & job-oriented training with real-time projects, expert faculty & personalized guidance." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -30,6 +38,12 @@
   </script>
 </head>
 <body data-theme="paper">
+
+  <!-- Splash Screen -->
+  <div class="splash" id="splash">
+    <span class="splash__logo">TechYuva</span>
+    <div class="spinner"></div>
+  </div>
 
   <!-- ===== Scroll Progress ===== -->
   <div class="scroll-progress" id="scrollProgress" aria-hidden="true"><span></span></div>
@@ -64,16 +78,16 @@
             <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M14 4H8L6 2H2v12h12V4z" stroke="currentColor" stroke-width="1.2"/></svg>
             <span>Study Zone</span>
           </a>
-          <a href="owner.html" class="nav__tree-item" data-file="owner">
-            <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M3 2h7l3 3v9H3V2z" stroke="currentColor" stroke-width="1.2"/><path d="M10 2v3h3" stroke="currentColor" stroke-width="1.2"/></svg>
-            <span>Owner</span>
+          <a href="about.html" class="nav__tree-item" data-file="about">
+            <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M14 4H8L6 2H2v12h12V4z" stroke="currentColor" stroke-width="1.2"/></svg>
+            <span>About</span>
           </a>
         </div>
       </div>
     </div>
     <div class="nav__bar">
       <a href="#top" class="nav__logo">
-        <span class="nav__logo-mark"><img src="unnamed.webp" alt="TechYuva" /></span>
+        <span class="nav__logo-mark"><img src="Blue White Bold Playful Kids Clothing Logo.png" alt="TechYuva" /></span>
         <div class="nav__logo-text">
           <span class="nav__logo-name">TechYuva</span>
           <span class="nav__logo-sub">ISO Certified Coding Institute</span>
@@ -123,8 +137,8 @@
             <a href="menu.html" class="btn btn--primary" id="heroEnroll">
               <span class="btn__text">$ techyuva enroll</span>
               <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14m0 0-6-6m6 6-6 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </a>
-            <a href="#zone" class="link-arrow">Student zone →</a>
+
+            <a href="#trending" class="link-arrow">Explore features →</a>
           </div>
         </div>
 
@@ -134,31 +148,6 @@
           <div class="stat"><span class="stat__num" data-count="45">0</span><span class="stat__suffix">+</span><p>hands-on projects</p></div>
         </div>
       </div>
-
-      <!-- White Paper Terminal -->
-      <div class="hero__terminal">
-        <div class="hero__orb" aria-hidden="true"></div>
-        <div class="hero__ring hero__ring--1" aria-hidden="true"></div>
-        <div class="hero__ring hero__ring--2" aria-hidden="true"></div>
-
-        <div class="terminal reveal">
-          <div class="terminal__bar">
-            <div class="terminal__dots"><i></i><i></i><i></i></div>
-            <span class="terminal__title" id="termTitle">techyuva — welcome</span>
-          </div>
-          <div class="terminal__body">
-            <pre class="terminal__code" id="termCode"></pre>
-            <div class="terminal__out" id="termOut" aria-live="polite"></div>
-          </div>
-          <div class="terminal__statusbar">
-            <span class="terminal__status" id="termStatus"><i></i> idle</span>
-            <span class="terminal__cursor-info">UTF-8 · LF · techyuva</span>
-          </div>
-        </div>
-
-      </div>
-
-      <div class="hero__scroll" aria-hidden="true"><span></span></div>
     </section>
 
     <!-- ===== Why / Features ===== -->
@@ -181,17 +170,18 @@
         <h2 class="section__title reveal" data-ascii-title>Upcoming <em>Batches</em></h2>
         <p class="section__sub reveal">New batches starting soon. Reserve your seat before they fill up.</p>
       </div>
-      <div class="schedule-wrap" style="margin:0 auto;max-width:900px;background:var(--paper);border:1px solid var(--line);border-radius:14px;overflow:hidden;">
+      <div class="schedule-wrap" style="margin:0 auto;max-width:900px;background:#f7f4ed;border:1px solid var(--line);border-radius:14px;overflow:hidden;">
         <table style="width:100%;border-collapse:collapse;font-family:var(--font-mono);font-size:.78rem;">
           <thead>
-            <tr style="background:var(--paper-2);border-bottom:2px solid var(--line);">
-              <th style="padding:.85rem 1.1rem;text-align:left;font-weight:600;font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-soft);">Course</th>
-              <th style="padding:.85rem 1.1rem;text-align:left;font-weight:600;font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-soft);">Batch</th>
-              <th style="padding:.85rem 1.1rem;text-align:left;font-weight:600;font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-soft);">Starting Date</th>
-              <th style="padding:.85rem 1.1rem;text-align:left;font-weight:600;font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-soft);">Timing</th>
+            <tr style="background:#ede8dc;border-bottom:2px solid var(--line);">
+              <th style="padding:.85rem 1.1rem;text-align:left;font-weight:600;font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;color:#6B7280;">Course</th>
+              <th style="padding:.85rem 1.1rem;text-align:left;font-weight:600;font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;color:#6B7280;">Batch</th>
+              <th style="padding:.85rem 1.1rem;text-align:left;font-weight:600;font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;color:#6B7280;">Starting Date</th>
+              <th style="padding:.85rem 1.1rem;text-align:left;font-weight:600;font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;color:#6B7280;">Timing</th>
+              <th style="padding:.85rem 1.1rem;text-align:center;font-weight:600;font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;color:#6B7280;">Action</th>
             </tr>
           </thead>
-          <tbody id="scheduleTable"><tr><td colspan="4"><table style="width:100%;" class="skeleton-table"><tr><td><div class="skeleton skeleton--text"></div></td><td><div class="skeleton skeleton--text"></div></td><td><div class="skeleton skeleton--text"></div></td><td><div class="skeleton skeleton--text"></div></td></tr><tr><td><div class="skeleton skeleton--text"></div></td><td><div class="skeleton skeleton--text"></div></td><td><div class="skeleton skeleton--text"></div></td><td><div class="skeleton skeleton--text"></div></td></tr><tr><td><div class="skeleton skeleton--text"></div></td><td><div class="skeleton skeleton--text"></div></td><td><div class="skeleton skeleton--text"></div></td><td><div class="skeleton skeleton--text"></div></td></tr></table></td></tr></tbody>
+          <tbody id="scheduleTable"><tr><td colspan="5"><table style="width:100%;" class="skeleton-table"><tr><td><div class="skeleton skeleton--text"></div></td><td><div class="skeleton skeleton--text"></div></td><td><div class="skeleton skeleton--text"></div></td><td><div class="skeleton skeleton--text"></div></td><td><div class="skeleton skeleton--text"></div></td></tr><tr><td><div class="skeleton skeleton--text"></div></td><td><div class="skeleton skeleton--text"></div></td><td><div class="skeleton skeleton--text"></div></td><td><div class="skeleton skeleton--text"></div></td><td><div class="skeleton skeleton--text"></div></td></tr><tr><td><div class="skeleton skeleton--text"></div></td><td><div class="skeleton skeleton--text"></div></td><td><div class="skeleton skeleton--text"></div></td><td><div class="skeleton skeleton--text"></div></td><td><div class="skeleton skeleton--text"></div></td></tr></table></td></tr></tbody>
         </table>
       </div>
     </section>
@@ -293,13 +283,13 @@
             <h3 class="yt-channel-card__name">Lokesh TechYuva</h3>
             <p class="yt-channel-card__sub">YouTube Channel</p>
           </div>
-          <a href="https://www.youtube.com/@lokesh-techyuva1984" target="_blank" rel="noopener" class="btn btn--primary" style="margin-left:auto;">
+          <a href="https://youtube.com/@techyuva1806?si=Evv2nVUjAR8GO-yJ" target="_blank" rel="noopener" class="btn btn--primary" style="margin-left:auto;">
             <span>$ subscribe</span>
             <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14m0 0-6-6m6 6-6 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
         </div>
         <div class="yt-videos">
-          <a href="https://www.youtube.com/@lokesh-techyuva1984/videos" target="_blank" rel="noopener" class="yt-video-card">
+          <a href="https://youtube.com/@techyuva1806?si=Evv2nVUjAR8GO-yJ/videos" target="_blank" rel="noopener" class="yt-video-card">
             <div class="yt-video-card__thumb">
               <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.5"/><path d="M10 8l6 4-6 4V8z" fill="var(--accent)"/></svg>
             </div>
@@ -308,7 +298,7 @@
               <span class="yt-video-card__meta">Latest tutorials & projects</span>
             </div>
           </a>
-          <a href="https://www.youtube.com/@lokesh-techyuva1984/playlists" target="_blank" rel="noopener" class="yt-video-card">
+          <a href="https://youtube.com/@techyuva1806?si=Evv2nVUjAR8GO-yJ/playlists" target="_blank" rel="noopener" class="yt-video-card">
             <div class="yt-video-card__thumb">
               <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.5"/><path d="M10 8l6 4-6 4V8z" fill="var(--accent)"/></svg>
             </div>
@@ -347,16 +337,16 @@
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </div>
         <div class="contact-card__label">Phone</div>
-        <a href="tel:+919876543210" class="contact-card__value">+91 98765 43210</a>
-        <a href="tel:+919876543211" class="contact-card__value">+91 98765 43211</a>
+        <a href="tel:+919848635599" class="contact-card__value">+91 98486 35599</a>
+        <a href="tel:+918019444922" class="contact-card__value">+91 80194 44922</a>
       </div>
       <div class="contact-card">
         <div class="contact-card__icon">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M22 6l-10 7L2 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </div>
         <div class="contact-card__label">Email</div>
-        <a href="mailto:hello@techyuva.com" class="contact-card__value">hello@techyuva.com</a>
-        <a href="mailto:support@techyuva.com" class="contact-card__value">support@techyuva.com</a>
+        <a href="mailto:techyuva.elr@gmail.com" class="contact-card__value">techyuva.elr@gmail.com</a>
+        <a href="mailto:techyuva.data@gmail.com" class="contact-card__value">techyuva.data@gmail.com</a>
       </div>
       <div class="contact-card">
         <div class="contact-card__icon">
@@ -364,14 +354,14 @@
         </div>
         <div class="contact-card__label">Follow Us</div>
         <div class="contact-card__socials">
-          <a href="https://instagram.com/techyuva" target="_blank" rel="noopener" class="social-link" aria-label="Instagram">
+          <a href="https://www.instagram.com/techyuvacomputers?igsh=MXB2eXZieWF6cmN2Zg==" target="_blank" rel="noopener" class="social-link" aria-label="Instagram">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="1.5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor"/></svg>
           </a>
-          <a href="https://facebook.com/techyuva" target="_blank" rel="noopener" class="social-link" aria-label="Facebook">
+          <a href="https://www.facebook.com/share/15zRpTsuUCV/" target="_blank" rel="noopener" class="social-link" aria-label="Facebook">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3V2z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
-          <a href="https://linkedin.com/company/techyuva" target="_blank" rel="noopener" class="social-link" aria-label="LinkedIn">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-4 0v7h-4v-7a6 6 0 016-6z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="2" y="9" width="4" height="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="4" cy="4" r="2" stroke="currentColor" stroke-width="1.5"/></svg>
+          <a href="https://youtube.com/@techyuva1806?si=Evv2nVUjAR8GO-yJ" target="_blank" rel="noopener" class="social-link" aria-label="YouTube">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M22.54 6.42a2.78 2.78 0 00-1.94-1.94C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 00-1.94 1.94A29.94 29.94 0 001 11.75a29.94 29.94 0 00.46 5.33A2.78 2.78 0 003.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 001.94-1.94 29.94 29.94 0 00.46-5.25 29.94 29.94 0 00-.46-5.39z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.75 15.02l5.75-3.27-5.75-3.27v6.54z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
         </div>
       </div>
@@ -402,9 +392,31 @@
   </footer>
 
   <div class="footer-credits">
+    <a href="owner.html">admin</a>
     <span>Designed by Sohith · +91 9640248157</span>
     <span>Designed by Neeraj · +91 9493007173</span>
   </div>
+
+  <!-- Bottom Nav (mobile) -->
+  <nav class="bottom-nav">
+    <a href="index.html" class="bottom-nav__item is-active">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 22V12h6v10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>Home</span>
+    </a>
+    <a href="menu.html" class="bottom-nav__item">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4 19.5A2.5 2.5 0 016.5 17H20" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>Courses</span>
+    </a>
+    <a href="studyzone.html" class="bottom-nav__item">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M22 10v6M2 10l10-5 10 5-10 5-10-5z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 12v5c0 1.1 2.7 2 6 2s6-.9 6-2v-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>Study</span>
+    </a>
+    <a href="about.html" class="bottom-nav__item">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/><path d="M12 6v6l4 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>About</span>
+    </a>
+    <div class="bottom-nav__liquid"></div>
+  </nav>
 
   <script src="script.js"></script>
   <script>
@@ -456,13 +468,14 @@
         if (!upcoming.length) { tbody.innerHTML = '<tr><td colspan="4"><div class="empty-state"><div class="empty-state__title">No upcoming batches</div><div class="empty-state__desc">Check back soon for new batches!</div></div></td></tr>'; return; }
         let rows = '', even = false;
         upcoming.forEach(b => {
-          const bg = even ? 'var(--paper-2)' : 'var(--paper)';
-          const cell = 'padding:.7rem 1.1rem;border-bottom:1px solid var(--line);color:var(--ink);';
+          const bg = even ? '#ede8dc' : '#f7f4ed';
+          const cell = 'padding:.7rem 1.1rem;border-bottom:1px solid #e0d9cc;color:#1c1915;';
           rows += '<tr style="background:' + bg + ';">' +
             '<td style="' + cell + 'font-weight:600;">' + b.courseName + '</td>' +
             '<td style="' + cell + '">' + b.batchName + '</td>' +
             '<td style="' + cell + 'font-family:var(--font-mono);">' + (b.startingDate ? formatDate(b.startingDate) + '<br><span style="font-size:.65rem;">' + countdownLabel(b.startingDate) + '</span>' : '—') + '</td>' +
-            '<td style="' + cell + 'font-family:var(--font-mono);">' + (b.timing || '—') + '</td></tr>';
+            '<td style="' + cell + 'font-family:var(--font-mono);">' + (b.timing || '—') + '</td>' +
+            '<td style="padding:.7rem .6rem;border-bottom:1px solid var(--line);text-align:center;"><a href="https://wa.me/' + (window._waNumber || '919848635599') + '?text=Hi%20TechYuva%2C%20I%20want%20to%20enroll%20for%20' + encodeURIComponent(b.courseName) + '.' + (b.batchName ? '%20' + encodeURIComponent(b.batchName) : '') + '%20Please%20share%20details." target="_blank" rel="noopener" style="font-family:var(--font-mono);font-size:.65rem;color:var(--accent);text-decoration:none;border:1px solid var(--accent);border-radius:100px;padding:.25em .8em;white-space:nowrap;">Enroll Now</a></td></tr>';
           even = !even;
         });
         tbody.innerHTML = rows;
@@ -531,9 +544,152 @@
   </script>
 
   <!-- WhatsApp -->
-  <a href="https://wa.me/919876543210" target="_blank" rel="noopener" class="wa-float" id="waFloat" aria-label="Chat on WhatsApp">
+  <a href="https://wa.me/919848635599" target="_blank" rel="noopener" class="wa-float" id="waFloat" aria-label="Chat on WhatsApp">
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
   </a>
+
+  <!-- Help Button -->
+  <button class="wa-float" id="helpBtn" style="bottom:200px;right:1rem;left:auto;" onclick="localStorage.removeItem('tourDone');showTour();" aria-label="Help">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="12" y1="17" x2="12.01" y2="17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+  </button>
+
+  <!-- Back to Top -->
+  <button class="btt" id="btt" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M18 15l-6-6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+
+  <!-- Walkthrough Tour -->
+  <div class="tour-overlay" id="tourOverlay" hidden>
+    <div class="tour-backdrop"></div>
+    <div class="tour-card">
+      <div class="tour-step" id="tourStep">1/5</div>
+      <h3 id="tourTitle">Welcome to TechYuva</h3>
+      <p id="tourDesc">Your journey to mastering code starts here.</p>
+      <div class="tour-actions">
+        <button class="btn" onclick="skipTour()"><span>$ skip</span></button>
+        <button class="btn btn--primary" id="tourNext"><span>$ next</span></button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* ─── Liquid Bar ─── */
+    (function(){
+      var a = document.querySelector('.bottom-nav__item.is-active');
+      var l = document.querySelector('.bottom-nav__liquid');
+      if (a && l) { l.style.left = a.offsetLeft+'px'; l.style.width = a.offsetWidth+'px'; }
+    })();
+
+    /* ─── Code Rain (mobile hero) ─── */
+    (function(){
+      if (window.innerWidth > 900) return;
+      var chars = ['0','1','{','}',';','#','&','|','/','*','fn','()','=>','&&'];
+      var hero = document.querySelector('.hero');
+      if (!hero) return;
+      function drop(){
+        var s = document.createElement('span');
+        s.textContent = chars[Math.floor(Math.random()*chars.length)];
+        s.style.cssText = 'position:absolute;font-family:JetBrains Mono,monospace;font-size:'+(11+Math.random()*10)+'px;color:'+(Math.random()>.5?'var(--accent)':'var(--ink-soft)')+';opacity:0;left:'+(Math.random()*90)+'%;top:-5%;pointer-events:none;animation:codeDrop '+(2+Math.random()*3)+'s linear forwards;z-index:0;';
+        hero.appendChild(s);
+        setTimeout(function(){ s.remove(); }, 4000);
+      }
+      var style = document.createElement('style');
+      style.textContent = '@keyframes codeDrop{0%{opacity:0;transform:translateY(0)}10%{opacity:.25}90%{opacity:.1}100%{opacity:0;transform:translateY('+(hero.offsetHeight+50)+'px)}}';
+      document.head.appendChild(style);
+      setInterval(function(){ drop(); }, 180);
+      for (var i=0;i<18;i++) setTimeout(drop, i*150);
+    })();
+
+    /* ─── Swipe Nav ─── */
+    (function(){
+      var pages = ['index.html','menu.html','studyzone.html'];
+      var sx=0, ex=0, sy=0, ey=0;
+      document.addEventListener('touchstart',function(e){sx=e.changedTouches[0].screenX;sy=e.changedTouches[0].screenY},{passive:true});
+      document.addEventListener('touchend',function(e){
+        ex=e.changedTouches[0].screenX; ey=e.changedTouches[0].screenY;
+        var dx=sx-ex, dy=sy-ey, i=pages.indexOf('index.html');
+        if(Math.abs(dx)>70 && Math.abs(dx)>Math.abs(dy)*2){
+          if(navigator.vibrate)navigator.vibrate(10);
+          if(dx>0&&i<2)location=pages[i+1];
+          if(dx<0&&i>0)location=pages[i-1];
+        }
+      },{passive:true});
+    })();
+
+    /* ─── Service Worker ─── */
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then(function(regs) {
+        regs.forEach(function(r) { r.unregister(); });
+      }).then(function() {
+        navigator.serviceWorker.register('/sw.js?v=3').catch(function(){});
+      });
+    }
+
+    /* ─── Tour ─── */
+    var tourSteps = [
+      { title:'Welcome', desc:'TechYuva — Best Computer Training Institute in Eluru. Let us show you around.', el:null },
+      { title:'Trending Courses', desc:'Explore our most popular courses. Tap any to see details and enroll.', el:'#trending' },
+      { title:'Upcoming Batches', desc:'Check batch starting dates and timings. Countdown shows days remaining.', el:'#schedule' },
+      { title:'Study Zone', desc:'Free resources — roadmaps, job openings, mock tests.', el:'#zone' },
+      { title:'Location & YouTube', desc:'Find us on the map, and watch tutorials on YouTube.', el:'#youtube' }
+    ];
+    var tourIdx = 0;
+    function showTour() {
+      if (localStorage.getItem('tourDone')) return;
+      var s = tourSteps[tourIdx];
+      document.getElementById('tourStep').textContent = (tourIdx+1)+'/'+tourSteps.length;
+      document.getElementById('tourTitle').textContent = s.title;
+      document.getElementById('tourDesc').textContent = s.desc;
+      document.getElementById('tourNext').innerHTML = tourIdx===tourSteps.length-1 ? '<span>$ finish</span>' : '<span>$ next</span>';
+      document.getElementById('tourOverlay').hidden = false;
+      if (s.el) { var el = document.querySelector(s.el); if (el) el.scrollIntoView({behavior:'smooth',block:'center'}); }
+      else { window.scrollTo({top:0,behavior:'smooth'}); }
+      if (navigator.vibrate) navigator.vibrate(15);
+    }
+    function nextTour() {
+      tourIdx++;
+      if (tourIdx >= tourSteps.length) { skipTour(); return; }
+      showTour();
+    }
+    function skipTour() {
+      document.getElementById('tourOverlay').hidden = true;
+      localStorage.setItem('tourDone','1'); tourIdx = 0;
+      window.scrollTo({top:0,behavior:'smooth'});
+    }
+    document.getElementById('tourNext').addEventListener('click', nextTour);
+    if (!localStorage.getItem('tourDone')) { setTimeout(showTour, 1500); }
+
+    /* Back to Top */
+    window.addEventListener('scroll', function(){
+      document.getElementById('btt').classList.toggle('is-visible', window.scrollY > 400);
+      var hb = document.getElementById('helpBtn'); if (hb) hb.style.display = window.scrollY > 200 ? '' : 'none';
+    });
+
+    /* Splash */
+    window.addEventListener('load', function(){
+      setTimeout(function(){ document.getElementById('splash').classList.add('is-done'); }, 600);
+    });
+
+    /* Animated Counters */
+    (function(){
+      var stats = document.querySelectorAll('.stat__num[data-count]');
+      if (!stats.length) return;
+      var observer = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+          if (!e.isIntersecting) return;
+          var el = e.target, target = parseInt(el.getAttribute('data-count'));
+          var current = 0, step = Math.ceil(target / 40);
+          var timer = setInterval(function(){
+            current += step;
+            if (current >= target) { current = target; clearInterval(timer); }
+            el.textContent = current;
+          }, 30);
+          observer.unobserve(el);
+        });
+      }, {threshold:.3});
+      stats.forEach(function(s){ observer.observe(s); });
+    })();
+  </script>
 
 </body>
 </html>

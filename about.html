@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#b85c38" />
+  <link rel="manifest" href="manifest.json" />
+  <title>About — Lokesh Devathati | TechYuva</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@300..700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .about-page { padding: clamp(5rem, 12vh, 8rem) var(--pad) 3rem; padding-left: calc(var(--nav-edge) + var(--pad)); max-width: 860px; margin: 0 auto; }
+    .about-hero { display: flex; gap: 1.5rem; align-items: flex-start; margin-bottom: 2.5rem; flex-wrap: wrap; }
+    .about-avatar { width: 100px; height: 100px; border-radius: 50%; overflow: hidden; flex-shrink: 0; border: 2px solid var(--accent); position: relative; }
+    .about-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .about-avatar--placeholder { background: var(--accent-soft); display: grid; place-items: center; font-family: var(--font-display); font-size: 2.4rem; color: var(--accent); }
+    .about-avatar::after { content:''; position:absolute; inset:-8px; border-radius:50%; border:1px solid var(--accent); opacity:.2; animation:avatarRing 3s ease-in-out infinite; }
+    @keyframes avatarRing { 0%,100%{opacity:.15;transform:scale(1)} 50%{opacity:.4;transform:scale(1.08)} }
+
+    .about-stats { display:flex; gap:2rem; flex-wrap:wrap; margin-top:1.5rem; justify-content:center; }
+    .about-stat { text-align:center; }
+    .about-stat__num { font-family:var(--font-display); font-size:2rem; color:var(--accent); font-weight:400; }
+    .about-stat__label { font-family:var(--font-mono); font-size:.62rem; color:var(--ink-soft); text-transform:uppercase; letter-spacing:.1em; margin-top:.2rem; }
+
+    @keyframes floatBadge { 0%,100%{transform:translateY(0) rotate(0)} 50%{transform:translateY(-8px) rotate(2deg)} }
+    .about-float-badge { position:absolute; font-family:var(--font-mono); font-size:.6rem; padding:.2em .6em; border-radius:100px; background:var(--accent-soft); color:var(--accent); border:1px solid var(--accent); pointer-events:none; animation:floatBadge var(--dur,4s) ease-in-out infinite; animation-delay:var(--delay,0s); }
+    .about-hero { position:relative; overflow:hidden; }
+    .about-hero::before { content:''; position:absolute; top:-30%; right:-10%; width:200px; height:200px; background:radial-gradient(circle,var(--accent) 0%,transparent 70%); opacity:.04; border-radius:50%; pointer-events:none; }
+
+    @media (max-width: 420px) {
+      .about-hero::before { display:none; }
+    }
+    .about-hero__info h1 { font-family: var(--font-display); font-size: clamp(1.6rem, 4vw, 2.2rem); font-weight: 400; line-height: 1.15; color: var(--ink); }
+    .about-hero__info h1 em { font-style: italic; color: var(--accent); }
+    .about-hero__pronouns { font-family: var(--font-mono); font-size: .68rem; color: var(--ink-soft); margin-top: .2rem; }
+    .about-hero__title { font-family: var(--font-mono); font-size: .72rem; color: var(--ink-soft); text-transform: uppercase; letter-spacing: .08em; margin-top: .4rem; line-height: 1.5; }
+    .about-hero__location { font-family: var(--font-mono); font-size: .65rem; color: var(--ink-faint); margin-top: .3rem; display: flex; align-items: center; gap: .3rem; }
+    .about-hero__location svg { width: 14px; height: 14px; }
+
+    .about-section { margin-bottom: 2.5rem; }
+    .about-section h2 { font-family: var(--font-display); font-size: 1.3rem; font-weight: 400; margin-bottom: 1rem; color: var(--ink); display: flex; align-items: center; gap: .5rem; }
+    .about-section h2::before { content: ''; width: 4px; height: 20px; background: var(--accent); border-radius: 2px; }
+    .about-section p { font-size: .92rem; line-height: 1.75; color: var(--ink); margin-bottom: .8rem; }
+
+    .about-exp { border-left: 2px solid var(--line); padding-left: 1.2rem; }
+    .about-exp__item { margin-bottom: 1.5rem; position: relative; }
+    .about-exp__item::before { content: ''; position: absolute; left: calc(-1.2rem - 5px); top: 6px; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
+    .about-exp__role { font-family: var(--font-display); font-size: 1rem; font-weight: 400; color: var(--ink); }
+    .about-exp__company { font-family: var(--font-mono); font-size: .78rem; color: var(--accent); margin-bottom: .15rem; }
+    .about-exp__meta { font-family: var(--font-mono); font-size: .65rem; color: var(--ink-soft); text-transform: uppercase; letter-spacing: .06em; display: flex; gap: .5rem; flex-wrap: wrap; }
+
+    .about-skills { display: flex; flex-wrap: wrap; gap: .4rem; }
+    .about-skill { font-family: var(--font-mono); font-size: .65rem; padding: .3em .7em; border-radius: 100px; background: var(--accent-soft); color: var(--accent); border: 1px solid var(--accent); }
+
+    @media (max-width: 900px) {
+      .about-page { padding: 4.5rem 1rem 2rem; max-width: 100%; }
+      .about-avatar { width: 80px; height: 80px; }
+      .about-section p { font-size: .85rem; line-height: 1.65; }
+      .about-stats { gap: 1.2rem; }
+      .about-stat__num { font-size: 1.6rem; }
+    }
+    @media (max-width: 420px) {
+      .about-hero { flex-direction: column; align-items: center; text-align: center; }
+      .about-hero__info { text-align: center; }
+      .about-hero__location { justify-content: center; }
+      .about-avatar { width: 72px; height: 72px; }
+      .about-exp { padding-left: .8rem; }
+      .about-exp__item::before { left: calc(-.8rem - 4px); width: 6px; height: 6px; }
+    }
+  </style>
+</head>
+<body data-theme="paper">
+
+  <header class="nav" id="nav">
+    <button class="nav__expand" id="navExpand" aria-label="Show explorer">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="nav__explorer" id="navExplorer">
+      <div class="nav__explorer-head">
+        <span class="nav__explorer-title">MENU</span>
+        <button class="nav__explorer-toggle" id="explorerToggle" aria-label="Toggle explorer">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+      <div class="nav__tree" id="navTree">
+        <div class="nav__tree-item nav__tree-item--root">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M14 4H8L6 2H2v12h12V4z" stroke="currentColor" stroke-width="1.2"/></svg>
+          <span>techyuva</span>
+        </div>
+        <div class="nav__tree-children">
+          <a href="index.html" class="nav__tree-item" data-file="main">
+            <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M3 2h7l3 3v9H3V2z" stroke="currentColor" stroke-width="1.2"/><path d="M10 2v3h3" stroke="currentColor" stroke-width="1.2"/></svg>
+            <span>Main</span>
+          </a>
+          <a href="menu.html" class="nav__tree-item" data-file="courses">
+            <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M14 4H8L6 2H2v12h12V4z" stroke="currentColor" stroke-width="1.2"/></svg>
+            <span>Courses</span>
+          </a>
+          <a href="studyzone.html" class="nav__tree-item" data-file="study-zone">
+            <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M14 4H8L6 2H2v12h12V4z" stroke="currentColor" stroke-width="1.2"/></svg>
+            <span>Study Zone</span>
+          </a>
+          <a href="about.html" class="nav__tree-item is-active" data-file="about">
+      </div>
+    </div>
+    <div class="nav__bar">
+      <a href="index.html#top" class="nav__logo">
+        <span class="nav__logo-mark"><img src="Blue White Bold Playful Kids Clothing Logo.png" alt="TechYuva" /></span>
+        <div class="nav__logo-text">
+          <span class="nav__logo-name">TechYuva</span>
+          <span class="nav__logo-sub">ISO Certified Coding Institute</span>
+        </div>
+      </a>
+      <div class="nav__actions">
+        <a href="index.html" class="link-arrow" style="font-size:.78rem;">← Back home</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="about-page">
+
+    <!-- About Institute -->
+    <div class="about-section reveal" id="instituteSection">
+      <h2>About the Institute</h2>
+      <p id="instituteDescText">TechYuva Computers — No.1 Computer Training Institute in Eluru (Since 2014). Trusted by students, job seekers & professionals for 100% practical, job-oriented training with real-time projects, expert faculty & personalized guidance.</p>
+    </div>
+
+    <!-- Gallery -->
+    <div class="about-section reveal">
+      <h2>Gallery</h2>
+      <div class="about-gallery" id="aboutGallery" style="display:flex;gap:.6rem;overflow-x:auto;padding-bottom:.5rem;-webkit-overflow-scrolling:touch;flex-wrap:wrap;">
+        <p style="color:var(--ink-soft);font-size:.8rem;">Loading gallery...</p>
+      </div>
+    </div>
+
+    <div class="about-hero reveal">
+      <div class="about-avatar reveal"><img src="Screenshot 2026-06-29 082624.png" alt="Lokesh Devathati" /></div>
+      <div class="about-hero__info">
+        <h1>Lokesh <em>Devathati</em></h1>
+        <p class="about-hero__pronouns">He/Him</p>
+        <p class="about-hero__title" id="typewriter"></p>
+        <p class="about-hero__location">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="10" r="3" stroke="currentColor" stroke-width="1.5"/></svg>
+          West Godavari, Andhra Pradesh, India
+        </p>
+      </div>
+    </div>
+
+    <div class="about-stats reveal">
+      <div class="about-stat"><div class="about-stat__num" data-count="20">0</div><div class="about-stat__label">Years Exp</div></div>
+      <div class="about-stat"><div class="about-stat__num" data-count="5000">0</div><div class="about-stat__label">+ Students</div></div>
+      <div class="about-stat"><div class="about-stat__num" data-count="5">0</div><div class="about-stat__label">Roles Held</div></div>
+    </div>
+
+    <div class="about-section reveal">
+      <h2>About</h2>
+      <p>With over 20 years of experience in computer science education and technical training, I bring a unique blend of strong academic foundation and real-world practical expertise. My teaching journey spans from computer fundamentals to advanced domains including C, Java, Python, Machine Learning, Data Science, and Artificial Intelligence.</p>
+      <p>I specialize in simplifying complex technical concepts and transforming them into hands-on, industry-relevant learning experiences. My expertise includes data preprocessing, model development, basic deep learning concepts, and real-world ML applications, equipping students with skills aligned to current industry demands.</p>
+      <p>Beyond programming and AI, I have extensive hands-on experience in technical documentation, Excel-based analytics and reporting, accounting using Tally, and designing professional digital assets such as certificates, invitations, and academic materials.</p>
+      <p>I am also skilled in website design and basic web application development, and I actively mentor students for job readiness, interview preparation, and campus placements — focusing on technical skills, problem-solving ability, communication, and professional confidence.</p>
+      <p>Driven by a passion for emerging technologies and education, I continuously upskill to stay aligned with evolving trends in AI, automation, and data-driven decision making. I take pride in creating an engaging learning environment that bridges the gap between theory and real-world application, empowering learners to succeed in today's competitive and technology-driven job market.</p>
+    </div>
+
+    <div class="about-section reveal">
+      <h2>Experience</h2>
+      <div class="about-exp">
+        <div class="about-exp__item">
+          <div class="about-exp__company">Tech Yuva Computers · Full-time</div>
+          <div class="about-exp__role">Head Of Faculty & Director</div>
+          <div class="about-exp__meta">Jun 2016 – Present · 10 yrs 1 mo · India · On-site</div>
+        </div>
+        <div class="about-exp__item">
+          <div class="about-exp__company">Eluru College of Engineering & Technology · Part-time</div>
+          <div class="about-exp__role">Asst Professor & Technical Trainer</div>
+          <div class="about-exp__meta">Aug 2021 – Present · 4 yrs 11 mos · Eluru · On-site</div>
+          <div class="about-skills" style="margin-top:.5rem;">
+            <span class="about-skill">Machine Learning</span>
+            <span class="about-skill">Python</span>
+          </div>
+        </div>
+        <div class="about-exp__item">
+          <div class="about-exp__company">APDDCF LTD · Full-time</div>
+          <div class="about-exp__role">Tally Accountant</div>
+          <div class="about-exp__meta">Apr 2018 – Jul 2021 · 3 yrs 4 mos · Eluru, Andhra Pradesh, India</div>
+        </div>
+        <div class="about-exp__item">
+          <div class="about-exp__company">Ch.S.D. St. Theresa's College for Women</div>
+          <div class="about-exp__role">Computer Facilitator</div>
+          <div class="about-exp__meta">Jun 2009 – May 2017 · 8 yrs</div>
+        </div>
+        <div class="about-exp__item">
+          <div class="about-exp__company">SkillPro</div>
+          <div class="about-exp__role">Computer Facilitator</div>
+          <div class="about-exp__meta">Jul 2009 – Jun 2011 · 2 yrs</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="about-section reveal">
+      <h2>Expertise</h2>
+      <div class="about-skills">
+        <span class="about-skill">C</span>
+        <span class="about-skill">Java</span>
+        <span class="about-skill">Python</span>
+        <span class="about-skill">Machine Learning</span>
+        <span class="about-skill">Data Science</span>
+        <span class="about-skill">AI</span>
+        <span class="about-skill">Deep Learning</span>
+        <span class="about-skill">Tally</span>
+        <span class="about-skill">Excel Analytics</span>
+        <span class="about-skill">Technical Documentation</span>
+        <span class="about-skill">Web Development</span>
+        <span class="about-skill">Career Counselling</span>
+        <span class="about-skill">Interview Preparation</span>
+        <span class="about-skill">Campus Placements</span>
+      </div>
+    </div>
+
+    <div class="about-section reveal">
+      <h2>Contact</h2>
+      <div class="contact-grid" style="padding:0;max-width:100%;">
+        <div class="contact-card">
+          <div class="contact-card__icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="contact-card__label">Phone</div>
+          <a href="tel:+919848635599" class="contact-card__value">+91 98486 35599</a>
+          <a href="tel:+918019444922" class="contact-card__value">+91 80194 44922</a>
+        </div>
+        <div class="contact-card">
+          <div class="contact-card__icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M22 6l-10 7L2 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="contact-card__label">Email</div>
+          <a href="mailto:techyuva.elr@gmail.com" class="contact-card__value">techyuva.elr@gmail.com</a>
+          <a href="mailto:techyuva.data@gmail.com" class="contact-card__value">techyuva.data@gmail.com</a>
+        </div>
+        <div class="contact-card">
+          <div class="contact-card__icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/><path d="M12 6v6l4 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="contact-card__label">Follow</div>
+          <div class="contact-card__socials">
+            <a href="https://www.instagram.com/techyuvacomputers?igsh=MXB2eXZieWF6cmN2Zg==" target="_blank" rel="noopener" class="social-link" aria-label="Instagram">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="1.5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor"/></svg>
+            </a>
+            <a href="https://www.facebook.com/share/15zRpTsuUCV/" target="_blank" rel="noopener" class="social-link" aria-label="Facebook">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3V2z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <a href="https://youtube.com/@techyuva1806?si=Evv2nVUjAR8GO-yJ" target="_blank" rel="noopener" class="social-link" aria-label="YouTube">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M22.54 6.42a2.78 2.78 0 00-1.94-1.94C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 00-1.94 1.94A29.94 29.94 0 001 11.75a29.94 29.94 0 00.46 5.33A2.78 2.78 0 003.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 001.94-1.94 29.94 29.94 0 00.46-5.25 29.94 29.94 0 00-.46-5.39z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.75 15.02l5.75-3.27-5.75-3.27v6.54z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="footer">
+    <span class="footer__logo">>_TechYuva</span>
+    <p>Best Computer Training Institute in Eluru. Since 2014.</p>
+    <span class="footer__year">&copy; 2026 TechYuva</span>
+  </footer>
+
+  <div class="footer-credits">
+    <a href="owner.html">admin</a>
+    <span>Designed by Sohith · +91 9640248157</span>
+    <span>Designed by Neeraj · +91 9493007173</span>
+  </div>
+
+  <nav class="bottom-nav">
+    <a href="index.html" class="bottom-nav__item">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 22V12h6v10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>Home</span>
+    </a>
+    <a href="menu.html" class="bottom-nav__item">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4 19.5A2.5 2.5 0 016.5 17H20" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>Courses</span>
+    </a>
+    <a href="studyzone.html" class="bottom-nav__item">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M22 10v6M2 10l10-5 10 5-10 5-10-5z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 12v5c0 1.1 2.7 2 6 2s6-.9 6-2v-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>Study</span>
+    </a>
+    <a href="about.html" class="bottom-nav__item is-active">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/><path d="M12 6v6l4 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>About</span>
+    </a>
+    <div class="bottom-nav__liquid"></div>
+  </nav>
+
+  <script src="script.js"></script>
+  <script>
+    /* load institute info + gallery */
+    (async function(){
+      var API = window.location.origin + '/api';
+      try {
+        var info = await fetch(API + '/institute-info').then(r => r.json());
+        if (info.title) {
+          var h2 = document.querySelector('#instituteSection h2');
+          if (h2) h2.textContent = info.title;
+        }
+        if (info.description) {
+          document.getElementById('instituteDescText').textContent = info.description;
+        }
+      } catch(e) {}
+      try {
+        var items = await fetch(API + '/gallery').then(r => r.json());
+        var g = document.getElementById('aboutGallery');
+        if (items.length) {
+          g.innerHTML = items.map(function(item) {
+            return '<div style="flex-shrink:0;width:160px;border-radius:10px;overflow:hidden;border:1px solid var(--line);"><img src="' + item.imageUrl + '" style="width:100%;height:120px;object-fit:cover;display:block;" onerror="this.parentElement.style.display=\'none\'" /><div style="padding:.3rem .5rem;font-family:var(--font-mono);font-size:.6rem;color:var(--ink-soft);text-align:center;">' + (item.caption || '') + '</div></div>';
+          }).join('');
+        } else {
+          g.innerHTML = '<p style="color:var(--ink-soft);font-size:.75rem;">No photos yet. Gallery coming soon.</p>';
+        }
+      } catch(e) { document.getElementById('aboutGallery').innerHTML = '<p style="color:var(--ink-soft);font-size:.75rem;">Gallery unavailable.</p>'; }
+    })();
+  </script>
+  <script>
+    /* typewriter */
+    var roles = ['Asst Professor','IT Trainer','Freelancer','Career Counsellor','Developer','Designer'];
+    var tw = document.getElementById('typewriter'), ri = 0, ci = 0, typing = '';
+    function typeRole(){
+      if (!tw) return;
+      var role = roles[ri];
+      if (ci < role.length) { typing += role[ci]; tw.textContent = typing; ci++; setTimeout(typeRole, 80); }
+      else { setTimeout(function(){ ci=0; typing=''; ri=(ri+1)%roles.length; setTimeout(typeRole, 400); }, 2000); }
+    }
+    typeRole();
+
+    /* animated counters */
+    (function(){
+      var stats = document.querySelectorAll('.about-stat__num[data-count]');
+      if (!stats.length) return;
+      var observer = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+          if (!e.isIntersecting) return;
+          var el = e.target, target = parseInt(el.getAttribute('data-count'));
+          var current = 0, step = Math.ceil(target / 40);
+          var timer = setInterval(function(){
+            current += step; if (current >= target) { current = target; clearInterval(timer); }
+            el.textContent = target>100 ? (current + '+') : current;
+          }, 30);
+          observer.unobserve(el);
+        });
+      }, {threshold:.3});
+      stats.forEach(function(s){ observer.observe(s); });
+    })();
+  </script>
+
+</body>
+</html>

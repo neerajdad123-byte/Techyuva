@@ -1884,10 +1884,10 @@
           <input type="text" id="paymentStudentName" readonly />
         </div>
         <div class="form-grid" style="margin-top:.6rem;">
-          <div class="field">
-            <span>Total Fee</span>
-            <input type="text" id="paymentTotalFee" readonly />
-          </div>
+        <div class="field">
+          <span>Total Fee</span>
+          <input type="text" id="paymentTotalFee" />
+        </div>
           <div class="field">
             <span>Already Paid</span>
             <input type="text" id="paymentAlreadyPaid" readonly />
@@ -2342,15 +2342,15 @@
       currentPaymentId = id;
       const total = parseFloat(s.totalFee) || 0; const paid = parseFloat(s.paidFee) || 0; const balance = total - paid;
       $('#paymentStudentName').value = s.name;
-      $('#paymentTotalFee').value = '₹' + total.toLocaleString('en-IN');
-      $('#paymentAlreadyPaid').value = '₹' + paid.toLocaleString('en-IN');
+      $('#paymentTotalFee').value = total;
+      $('#paymentAlreadyPaid').value = paid.toLocaleString('en-IN');
       $('#paymentRemaining').value = '₹' + balance.toLocaleString('en-IN');
       $('#paymentAmount').value = ''; $('#paymentAmount').max = balance; $('#paymentAmount').placeholder = 'Max ₹' + balance.toLocaleString('en-IN');
       let instHtml = '<div class="fee-breakdown__item" style="font-weight:600;color:var(--ink);"><span>Total Fee</span><span>₹' + total.toLocaleString('en-IN') + '</span></div>';
       const payments = s.payments || [];
       payments.forEach((p, i) => {
         const modeLabel = p.mode === 'online' ? '🟢 Online' : '🔴 Offline';
-        instHtml += '<div class="fee-breakdown__item"><span>Installment ' + (i+1) + ' · ' + formatDate(p.date) + ' · ' + modeLabel + '</span><span>₹' + (parseFloat(p.amount)||0).toLocaleString('en-IN') + ' <button onclick="deleteInstallment(\'' + p.id + '\')" style="font-size:.6rem;color:var(--bad);background:none;border:none;cursor:pointer;padding:0;margin-left:.3rem;">✕</button></span></div>';
+        instHtml += '<div class="fee-breakdown__item"><span>Installment ' + (i+1) + ' · ' + formatDate(p.date) + ' · ' + modeLabel + '</span><span>₹' + (parseFloat(p.amount)||0).toLocaleString('en-IN') + ' <button onclick="editInstallment(\'' + p.id + '\',' + p.amount + ',\'' + p.date + '\',\'' + p.mode + '\')" style="font-size:.6rem;color:var(--accent);background:none;border:none;cursor:pointer;padding:0;" title="Edit">✏</button> <button onclick="deleteInstallment(\'' + p.id + '\')" style="font-size:.6rem;color:var(--bad);background:none;border:none;cursor:pointer;padding:0;" title="Delete">✕</button></span></div>';
       });
       instHtml += '<div class="fee-breakdown__item"><span>Paid So Far</span><span>₹' + paid.toLocaleString('en-IN') + '</span></div>';
       instHtml += '<div class="fee-breakdown__item" style="color:var(--bad);font-weight:600;"><span>Remaining</span><span>₹' + balance.toLocaleString('en-IN') + '</span></div>';
@@ -2378,19 +2378,61 @@
     }
     async function recordPayment() {
       if (!currentPaymentId) return;
-      const amount = parseFloat($('#paymentAmount').value) || 0;
-      const mode = $('#paymentModeSelect') ? $('#paymentModeSelect').value : 'offline';
-      if (amount < 0) { showToast('Enter a valid amount', 'error'); return; }
-      const s = students.find(x => x.id === currentPaymentId);
-      const balance = (parseFloat(s.totalFee) || 0) - (parseFloat(s.paidFee) || 0);
-      if (amount > balance) { showToast('Amount exceeds balance', 'error'); return; }
+      var amount = parseFloat($('#paymentAmount').value) || 0;
+      var mode = $('#paymentModeSelect') ? $('#paymentModeSelect').value : 'offline';
+      var newTotal = parseFloat($('#paymentTotalFee').value) || 0;
+      var s = students.find(function(x) { return x.id === currentPaymentId; });
+      if (!s) return;
+      var balance = (parseFloat(s.totalFee) || 0) - (parseFloat(s.paidFee) || 0);
+      if (amount > 0 && amount > balance) { showToast('Amount exceeds balance', 'error'); return; }
       try {
-        const updated = await api(`/students/${currentPaymentId}/payments`, { method: 'POST', body: JSON.stringify({ amount, mode, date: new Date().toISOString().split('T')[0] }) });
-        const idx = students.findIndex(x => x.id === currentPaymentId);
-        if (idx !== -1) students[idx] = updated;
+        var update = {};
+        if (amount > 0) {
+          var res = await api('/students/' + currentPaymentId + '/payments', { method: 'POST', body: JSON.stringify({ amount: amount, mode: mode, date: new Date().toISOString().split('T')[0] }) });
+          var idx = students.findIndex(function(x) { return x.id === currentPaymentId; });
+          if (idx !== -1) students[idx] = res;
+        }
+        if (newTotal !== parseFloat(s.totalFee)) {
+          var ures = await api('/students/' + currentPaymentId, { method: 'PUT', body: JSON.stringify({ totalFee: newTotal }) });
+          var idx2 = students.findIndex(function(x) { return x.id === currentPaymentId; });
+          if (idx2 !== -1) students[idx2] = ures;
+        }
+        var s2 = students.find(function(x) { return x.id === currentPaymentId; });
+        var t = parseFloat(s2.totalFee) || 0; var p = parseFloat(s2.paidFee) || 0;
+        var newStatus = p >= t && t > 0 ? 'Paid' : p > 0 ? 'Partial' : 'Pending';
+        var sres = await api('/students/' + currentPaymentId, { method: 'PUT', body: JSON.stringify({ status: newStatus }) });
+        var idx3 = students.findIndex(function(x) { return x.id === currentPaymentId; });
+        if (idx3 !== -1) students[idx3] = sres;
         closePaymentModal(); updateFeesTable(); updateStudentsTable(); updateDashboard(); updateCourses();
-        showToast('Payment of ₹' + amount.toLocaleString('en-IN') + ' recorded', 'success');
-      } catch (err) { showToast('Payment failed: ' + err.message, 'error'); }
+        showToast(amount > 0 ? 'Payment recorded' : 'Total fee updated', 'success');
+      } catch (err) { showToast('Failed: ' + err.message, 'error'); }
+    }
+
+    async function editInstallment(id, amount, date, mode) {
+      if (!currentPaymentId) return;
+      var na = prompt('Amount (₹)', amount);
+      if (na === null) return;
+      var nd = prompt('Date (YYYY-MM-DD)', date);
+      if (nd === null) return;
+      var nm = prompt('Mode (online/offline)', mode || 'offline');
+      if (nm === null) return;
+      var s = students.find(function(x) { return x.id === currentPaymentId; });
+      if (!s) return;
+      var payments = (s.payments || []).map(function(p) {
+        if (p.id == id) { p.amount = parseFloat(na) || 0; p.date = nd; p.mode = (nm === 'online' ? 'online' : 'offline'); }
+        return p;
+      });
+      var newPaid = payments.reduce(function(sum, p) { return sum + (parseFloat(p.amount)||0); }, 0);
+      var total = parseFloat(s.totalFee) || 0;
+      var status = newPaid >= total && total > 0 ? 'Paid' : newPaid > 0 ? 'Partial' : 'Pending';
+      try {
+        var updated = await api('/students/' + currentPaymentId, { method: 'PUT', body: JSON.stringify({ paidFee: newPaid, payments: payments, status: status }) });
+        var idx = students.findIndex(function(x) { return x.id === currentPaymentId; });
+        if (idx !== -1) students[idx] = updated;
+        openPaymentModal(currentPaymentId);
+        updateFeesTable(); updateStudentsTable(); updateDashboard(); updateCourses();
+        showToast('Installment updated', 'success');
+      } catch (err) { showToast('Failed: ' + err.message, 'error'); }
     }
 
     // ==================== FEES ====================
@@ -3228,7 +3270,8 @@
     $('#studentBatch')?.addEventListener('change', updateExpectedEndDate);
 
     // Set default dates
-    $('#studentJoinDate').value = new Date().toISOString().split('T')[0];
+    var d3 = new Date();
+    $('#studentJoinDate').value = d3.getFullYear() + '-' + String(d3.getMonth()+1).padStart(2,'0') + '-' + String(d3.getDate()).padStart(2,'0');
     var d2 = new Date();
     $('#expDate').value = d2.getFullYear() + '-' + String(d2.getMonth()+1).padStart(2,'0') + '-' + String(d2.getDate()).padStart(2,'0');
 

@@ -1994,10 +1994,6 @@
             <input type="number" id="editTotalFee" />
           </div>
           <div class="field">
-            <span>Amount Paid (₹)</span>
-            <input type="number" id="editPaidFee" />
-          </div>
-          <div class="field">
             <span>Status</span>
             <select id="editStatus">
               <option value="Pending">Pending</option>
@@ -2308,7 +2304,7 @@
       $('#editPaymentMode').value = s.paymentMode || 'offline';
       $('#editCertificate').value = s.certificateIssued || 'no';
       $('#editCourseStatus').value = s.courseStatus || 'ongoing';
-      $('#editTotalFee').value = s.totalFee; $('#editPaidFee').value = s.paidFee; $('#editStatus').value = s.status;
+      $('#editTotalFee').value = s.totalFee; $('#editStatus').value = s.status;
       $('#editModal').classList.add('is-active');
     }
 
@@ -2323,7 +2319,7 @@
         paymentMode: $('#editPaymentMode').value,
         certificateIssued: $('#editCertificate').value,
         courseStatus: $('#editCourseStatus').value,
-        totalFee: parseFloat($('#editTotalFee').value) || 0, paidFee: parseFloat($('#editPaidFee').value) || 0,
+        totalFee: parseFloat($('#editTotalFee').value) || 0, paidFee: s.paidFee,
         status: $('#editStatus').value,
         expectedEndDate: calcExpectedEndDate(s.joinDate, $('#editBatch').value),
       };
@@ -2354,7 +2350,7 @@
       const payments = s.payments || [];
       payments.forEach((p, i) => {
         const modeLabel = p.mode === 'online' ? '🟢 Online' : '🔴 Offline';
-        instHtml += '<div class="fee-breakdown__item"><span>Installment ' + (i+1) + ' · ' + formatDate(p.date) + ' · ' + modeLabel + '</span><span>₹' + (parseFloat(p.amount)||0).toLocaleString('en-IN') + '</span></div>';
+        instHtml += '<div class="fee-breakdown__item"><span>Installment ' + (i+1) + ' · ' + formatDate(p.date) + ' · ' + modeLabel + '</span><span>₹' + (parseFloat(p.amount)||0).toLocaleString('en-IN') + ' <button onclick="deleteInstallment(\'' + p.id + '\')" style="font-size:.6rem;color:var(--bad);background:none;border:none;cursor:pointer;padding:0;margin-left:.3rem;">✕</button></span></div>';
       });
       instHtml += '<div class="fee-breakdown__item"><span>Paid So Far</span><span>₹' + paid.toLocaleString('en-IN') + '</span></div>';
       instHtml += '<div class="fee-breakdown__item" style="color:var(--bad);font-weight:600;"><span>Remaining</span><span>₹' + balance.toLocaleString('en-IN') + '</span></div>';
@@ -2362,6 +2358,24 @@
       $('#paymentModal').classList.add('is-active');
     }
     function closePaymentModal() { $('#paymentModal').classList.remove('is-active'); currentPaymentId = null; }
+
+    async function deleteInstallment(paymentId) {
+      if (!currentPaymentId || !confirm('Delete this installment?')) return;
+      var s = students.find(function(x) { return x.id === currentPaymentId; });
+      if (!s) return;
+      var payments = (s.payments || []).filter(function(p) { return p.id != paymentId; });
+      var newPaid = payments.reduce(function(sum, p) { return sum + (parseFloat(p.amount)||0); }, 0);
+      var total = parseFloat(s.totalFee) || 0;
+      var status = newPaid >= total && total > 0 ? 'Paid' : newPaid > 0 ? 'Partial' : 'Pending';
+      try {
+        var updated = await api('/students/' + currentPaymentId, { method: 'PUT', body: JSON.stringify({ paidFee: newPaid, payments: payments, status: status }) });
+        var idx = students.findIndex(function(x) { return x.id === currentPaymentId; });
+        if (idx !== -1) students[idx] = updated;
+        openPaymentModal(currentPaymentId);
+        updateFeesTable(); updateStudentsTable(); updateDashboard(); updateCourses();
+        showToast('Installment deleted', 'success');
+      } catch (err) { showToast('Failed: ' + err.message, 'error'); }
+    }
     async function recordPayment() {
       if (!currentPaymentId) return;
       const amount = parseFloat($('#paymentAmount').value) || 0;
@@ -3215,7 +3229,8 @@
 
     // Set default dates
     $('#studentJoinDate').value = new Date().toISOString().split('T')[0];
-    $('#expDate').value = new Date().toISOString().split('T')[0];
+    var d2 = new Date();
+    $('#expDate').value = d2.getFullYear() + '-' + String(d2.getMonth()+1).padStart(2,'0') + '-' + String(d2.getDate()).padStart(2,'0');
 
     // WhatsApp number
     async function loadWhatsappNumber() {

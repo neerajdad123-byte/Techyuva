@@ -1898,6 +1898,10 @@
           <input type="text" id="paymentRemaining" readonly style="color:var(--bad); font-weight:600;" />
         </div>
         <div class="field" style="margin-top:.6rem;">
+          <span>Payment Date</span>
+          <input type="date" id="paymentDate" />
+        </div>
+        <div class="field" style="margin-top:.4rem;">
           <span>Amount to Pay Now (₹)</span>
           <input type="number" id="paymentAmount" placeholder="Enter amount" />
         </div>
@@ -2345,6 +2349,8 @@
       $('#paymentTotalFee').value = total;
       $('#paymentAlreadyPaid').value = paid.toLocaleString('en-IN');
       $('#paymentRemaining').value = '₹' + balance.toLocaleString('en-IN');
+      var d3 = new Date();
+      $('#paymentDate').value = d3.getFullYear() + '-' + String(d3.getMonth()+1).padStart(2,'0') + '-' + String(d3.getDate()).padStart(2,'0');
       $('#paymentAmount').value = ''; $('#paymentAmount').max = balance; $('#paymentAmount').placeholder = 'Max ₹' + balance.toLocaleString('en-IN');
       let instHtml = '<div class="fee-breakdown__item" style="font-weight:600;color:var(--ink);"><span>Total Fee</span><span>₹' + total.toLocaleString('en-IN') + '</span></div>';
       const payments = s.payments || [];
@@ -2380,6 +2386,7 @@
       if (!currentPaymentId) return;
       var amount = parseFloat($('#paymentAmount').value) || 0;
       var mode = $('#paymentModeSelect') ? $('#paymentModeSelect').value : 'offline';
+      var payDate = $('#paymentDate').value || new Date().toISOString().split('T')[0];
       var newTotal = parseFloat($('#paymentTotalFee').value) || 0;
       var s = students.find(function(x) { return x.id === currentPaymentId; });
       if (!s) return;
@@ -2388,7 +2395,7 @@
       try {
         var update = {};
         if (amount > 0) {
-          var res = await api('/students/' + currentPaymentId + '/payments', { method: 'POST', body: JSON.stringify({ amount: amount, mode: mode, date: new Date().toISOString().split('T')[0] }) });
+          var res = await api('/students/' + currentPaymentId + '/payments', { method: 'POST', body: JSON.stringify({ amount: amount, mode: mode, date: payDate }) });
           var idx = students.findIndex(function(x) { return x.id === currentPaymentId; });
           if (idx !== -1) students[idx] = res;
         }

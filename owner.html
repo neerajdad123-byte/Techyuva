@@ -2197,7 +2197,7 @@
         const matchCourse = !courseFilter || s.course === courseFilter;
         const matchBatch = !batchFilter || s.batch === batchFilter;
         const matchStatus = !statusFilter || s.status === statusFilter;
-        const matchDate = (!dateFrom || s.joinDate >= dateFrom) && (!dateTo || s.joinDate <= dateTo);
+        const matchDate = (!dateFrom || (s.joinDate && s.joinDate >= dateFrom)) && (!dateTo || (s.joinDate && s.joinDate <= dateTo));
         return matchSearch && matchCourse && matchBatch && matchStatus && matchDate;
       });
       const tbody = $('#studentsTable');
@@ -2465,7 +2465,7 @@
         const matchStatus = !statusFilter || s.status === statusFilter;
         const matchMode = !modeFilter || s.paymentMode === modeFilter;
         const matchMonth = !monthFilter || (s.joinDate && s.joinDate.startsWith(monthFilter));
-        const matchDate = (!dateFrom || s.joinDate >= dateFrom) && (!dateTo || s.joinDate <= dateTo);
+        const matchDate = (!dateFrom || (s.joinDate && s.joinDate >= dateFrom)) && (!dateTo || (s.joinDate && s.joinDate <= dateTo));
         return matchSearch && matchStatus && matchMode && matchMonth && matchDate;
       });
 
@@ -2914,7 +2914,7 @@
       let filtered = expenses.filter(e => {
         const matchSearch = e.name.toLowerCase().includes(search);
         const matchMode = !modeFilter || e.mode === modeFilter;
-        const matchDate = (!dateFrom || e.date >= dateFrom) && (!dateTo || e.date <= dateTo);
+        const matchDate = (!dateFrom || (e.date && e.date >= dateFrom)) && (!dateTo || (e.date && e.date <= dateTo));
         return matchSearch && matchMode && matchDate;
       });
 

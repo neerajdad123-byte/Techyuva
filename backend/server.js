@@ -442,6 +442,13 @@ app.put('/api/expenses/:id', async (req, res) => {
   } catch (err) { res.status(500).json({ error: err.message }); }
 });
 
+app.delete('/api/expenses/:id', async (req, res) => {
+  try {
+    await getDB().collection('expenses').doc(req.params.id).delete();
+    res.json({ success: true });
+  } catch (err) { res.status(500).json({ error: err.message }); }
+});
+
 // ─── AUTH ───
 app.post('/api/auth/login', async (req, res) => {
   try {

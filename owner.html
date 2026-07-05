@@ -2464,8 +2464,14 @@
         const matchSearch = s.name.toLowerCase().includes(search) || s.course.toLowerCase().includes(search);
         const matchStatus = !statusFilter || s.status === statusFilter;
         const matchMode = !modeFilter || s.paymentMode === modeFilter;
-        const matchMonth = !monthFilter || (s.joinDate && s.joinDate.startsWith(monthFilter));
-        const matchDate = (!dateFrom || (s.joinDate && s.joinDate >= dateFrom)) && (!dateTo || (s.joinDate && s.joinDate <= dateTo));
+        var payments = s.payments || [];
+        var matchMonth = !monthFilter || payments.some(function(p) { return p.date && p.date.startsWith(monthFilter); });
+        var matchDate = true;
+        if (dateFrom || dateTo) {
+          matchDate = payments.some(function(p) {
+            return p.date && (!dateFrom || p.date >= dateFrom) && (!dateTo || p.date <= dateTo);
+          });
+        }
         return matchSearch && matchStatus && matchMode && matchMonth && matchDate;
       });
 
